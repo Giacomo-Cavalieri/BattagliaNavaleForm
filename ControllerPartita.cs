@@ -15,12 +15,14 @@ namespace BattagliaNavale
         private PartitaForm formPartita;
         private Giocatore giocatore_1;
         private Giocatore giocatore_2;
+        private static ControllerPartita istanza;
         
 
 
         // Costruttore della classe
-        public ControllerPartita()
+        private ControllerPartita()
         {
+
             this.giocatore_1 = new Giocatore("Giacomo");
             this.giocatore_2 = new Giocatore("Pavel");
             this.formPartita = new PartitaForm();
@@ -29,6 +31,17 @@ namespace BattagliaNavale
             // Metodo dove inizializzo i vari click
             InizializzaEventi();
             PreparazionePartita();
+        }
+
+        // Metodo per l'implementazione del Design Pattern Singleton
+        public static ControllerPartita getIstanza()
+        {
+            if (istanza == null )
+            {
+                istanza = new ControllerPartita();
+            }
+
+            return istanza;
         }
 
         private void PreparazionePartita()

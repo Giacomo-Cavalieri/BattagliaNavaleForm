@@ -33,7 +33,8 @@ namespace BattagliaNavale
         // Metodo che gestisce il click sul bottone IniziaPartita
         private void InziaPartita_Click(object sender, MouseEventArgs e)
         {
-            ControllerPartita controllerPartita = new ControllerPartita();
+            // Dichiaro il controllerPartita utilizzando il metodo getIstanza()
+            ControllerPartita controllerPartita = ControllerPartita.getIstanza();
             controllerPartita.MostraPartita();
         }
 
