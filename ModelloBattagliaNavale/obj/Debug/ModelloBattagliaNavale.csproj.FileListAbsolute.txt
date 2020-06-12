@@ -16,3 +16,9 @@ D:\Users\Utente\Downloads\BattagliaNavaleConsole\ModelloBattagliaNavale\obj\Debu
 D:\Users\Utente\Downloads\BattagliaNavaleConsole\ModelloBattagliaNavale\obj\Debug\ModelloBattagliaNavale.csproj.CoreCompileInputs.cache
 D:\Users\Utente\Downloads\BattagliaNavaleConsole\ModelloBattagliaNavale\obj\Debug\ModelloBattagliaNavale.dll
 D:\Users\Utente\Downloads\BattagliaNavaleConsole\ModelloBattagliaNavale\obj\Debug\ModelloBattagliaNavale.pdb
+D:\Users\Utente\Desktop\BattagliaNavale\ModelloBattagliaNavale\bin\Debug\ModelloBattagliaNavale.dll
+D:\Users\Utente\Desktop\BattagliaNavale\ModelloBattagliaNavale\bin\Debug\ModelloBattagliaNavale.pdb
+D:\Users\Utente\Desktop\BattagliaNavale\ModelloBattagliaNavale\obj\Debug\ModelloBattagliaNavale.csprojAssemblyReference.cache
+D:\Users\Utente\Desktop\BattagliaNavale\ModelloBattagliaNavale\obj\Debug\ModelloBattagliaNavale.csproj.CoreCompileInputs.cache
+D:\Users\Utente\Desktop\BattagliaNavale\ModelloBattagliaNavale\obj\Debug\ModelloBattagliaNavale.dll
+D:\Users\Utente\Desktop\BattagliaNavale\ModelloBattagliaNavale\obj\Debug\ModelloBattagliaNavale.pdb

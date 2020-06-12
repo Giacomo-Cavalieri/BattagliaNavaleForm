@@ -1,0 +1,12 @@
+D:\Users\Utente\Desktop\BattagliaNavale\bin\Debug\BattagliaNavale.exe.config
+D:\Users\Utente\Desktop\BattagliaNavale\bin\Debug\BattagliaNavale.exe
+D:\Users\Utente\Desktop\BattagliaNavale\bin\Debug\BattagliaNavale.pdb
+D:\Users\Utente\Desktop\BattagliaNavale\bin\Debug\ModelloBattagliaNavale.dll
+D:\Users\Utente\Desktop\BattagliaNavale\bin\Debug\ModelloBattagliaNavale.pdb
+D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.csprojAssemblyReference.cache
+D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.Properties.Resources.resources
+D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.csproj.GenerateResource.cache
+D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.csproj.CoreCompileInputs.cache
+D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.csproj.CopyComplete
+D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.exe
+D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.pdb

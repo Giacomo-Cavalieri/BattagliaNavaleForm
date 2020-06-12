@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace BattagliaNavale
 {
     static class Program
@@ -16,7 +17,10 @@ namespace BattagliaNavale
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            // Dichiaro il controller del menù Principale
+            ControllerMenuPrincipale menuPrincipale = new ControllerMenuPrincipale();
+            // Mostro il form del menuPrincipale
+            menuPrincipale.MostraMenuPrincipale();
         }
     }
 }

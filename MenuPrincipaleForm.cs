@@ -10,11 +10,14 @@ using System.Windows.Forms;
 
 namespace BattagliaNavale
 {
-    public partial class Form1 : Form
+    public partial class MenuPrincipaleForm : Form
     {
-        public Form1()
-        {
+        public Button IniziaPartitaBtn { get; set; }
+        public Button EsciDalGiocoBtn { get; set; }
+
+        public MenuPrincipaleForm()
+        {            
             InitializeComponent();
-        }
+        }       
     }
 }
