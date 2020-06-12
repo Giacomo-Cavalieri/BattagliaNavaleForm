@@ -47,14 +47,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerMenuPrincipale.cs" />
+    <Compile Include="ControllerPartita.cs" />
     <Compile Include="MenuPrincipaleForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MenuPrincipaleForm.Designer.cs">
       <DependentUpon>MenuPrincipaleForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PartitaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PartitaForm.Designer.cs">
+      <DependentUpon>PartitaForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MenuPrincipaleForm.resx">
+      <DependentUpon>MenuPrincipaleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PartitaForm.resx">
+      <DependentUpon>PartitaForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -63,6 +76,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -82,6 +96,9 @@
       <Project>{ee020bb9-323e-480a-9d69-51a12354e313}</Project>
       <Name>ModelloBattagliaNavale</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sfondoMenuPrincipale.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,3 +10,5 @@ D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.csproj.CoreCom
 D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.csproj.CopyComplete
 D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.exe
 D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.pdb
+D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.MenuPrincipaleForm.resources
+D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.PartitaForm.resources

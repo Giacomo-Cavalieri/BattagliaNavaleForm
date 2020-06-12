@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,12 +10,14 @@ namespace BattagliaNavale
 {
     class ControllerMenuPrincipale
     {
-        private MenuPrincipaleForm menuPrincipale;        
+        private MenuPrincipaleForm menuPrincipale;  
+        
 
         // Costruttore
         public ControllerMenuPrincipale()
         {
-            this.menuPrincipale = new MenuPrincipaleForm();          
+            this.menuPrincipale = new MenuPrincipaleForm();
+            this.menuPrincipale.FormBorderStyle = FormBorderStyle.FixedDialog;
             InizializzaEventi();
         }
 
@@ -24,12 +27,15 @@ namespace BattagliaNavale
         {
             this.menuPrincipale.IniziaPartitaBtn.MouseClick += new MouseEventHandler(this.InziaPartita_Click);
             this.menuPrincipale.EsciDalGiocoBtn.MouseClick += new MouseEventHandler(this.EsciDalGioco_Click);
+            
         }
+        
 
         // Metodo che gestisce il click sul bottone IniziaPartita
         private void InziaPartita_Click(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+            ControllerPartita controllerPartita = new ControllerPartita();
+            controllerPartita.MostraPartita();
         }
 
         // Metodo che gestisce il click su bottone EsciDalGioco
@@ -40,6 +46,8 @@ namespace BattagliaNavale
 
         public void MostraMenuPrincipale()
         {
+            // Carico l'immagine di sfondo del menu principale
+            this.menuPrincipale.SfondoMenuPrincipale.Image = (Image)Properties.Resources.sfondoMenuPrincipale;
             this.menuPrincipale.ShowDialog();
         }
     }    
