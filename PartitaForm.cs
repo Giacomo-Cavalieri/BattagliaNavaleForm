@@ -35,5 +35,31 @@ namespace BattagliaNavale
         {
             get { return this.panelCampoGiocatore_2; }
         }
+
+
+        // picturebox per stampare il sottomarino
+        public PictureBox Sottomarino_1
+        {
+            get { return this.sottomarino_1Pic; }
+            set { this.sottomarino_1Pic = value; }
+        }
+
+        public PictureBox Sottomarino_2
+        {
+            get { return this.sottomarino_2Pic; }
+            set { this.sottomarino_2Pic = value; }
+        }
+
+        public PictureBox Sottomarino_3
+        {
+            get { return this.sottomarino_3Pic; }
+            set { this.sottomarino_3Pic = value; }
+        }
+
+        public PictureBox Sottomarino_4
+        {
+            get { return this.sottomarino_4Pic; }
+            set { this.sottomarino_4Pic = value; }
+        }
     }
 }

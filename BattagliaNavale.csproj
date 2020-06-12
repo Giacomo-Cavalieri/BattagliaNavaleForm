@@ -100,5 +100,8 @@
   <ItemGroup>
     <None Include="Resources\sfondoMenuPrincipale.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sottomarino.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
