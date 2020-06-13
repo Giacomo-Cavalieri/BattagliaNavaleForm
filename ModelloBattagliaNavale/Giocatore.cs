@@ -74,7 +74,7 @@ namespace ModelloBattagliaNavale
                 colpito = true;
                 // cambio lo stato della casella in modo che non possa essere più colpita
                 avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella = Stato.colpita;
-                avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].SimboloNave = 'O';
+                avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].SimboloCasella = 'O';
                 Console.WriteLine("casella colpitaaaaaaaaaaaaa!!!!!");
             }
             else
@@ -82,7 +82,7 @@ namespace ModelloBattagliaNavale
                 Console.WriteLine("casella mancataaaaaaaaaaaaa!!!!!!");
                 // anche se non è stata colpita nessuna nave devo cambiare lo stato della casella
                 avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella = Stato.mancata;
-                avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].SimboloNave = 'X';
+                avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].SimboloCasella = 'X';
             }
             return colpito;
         }
@@ -100,13 +100,13 @@ namespace ModelloBattagliaNavale
                 colpito = true;
                 // cambio lo stato della casella in modo che non possa essere più colpita
                 campoNemico.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella = Stato.colpita;
-                campoNemico.Casella[bersaglio.Riga, bersaglio.Colonna].SimboloNave = 'O';
+                campoNemico.Casella[bersaglio.Riga, bersaglio.Colonna].SimboloCasella = 'O';
             }
             else
             {
                 // anche se non è stata colpita nessuna nave devo cambiare lo stato della casella
                 campoNemico.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella = Stato.mancata;
-                campoNemico.Casella[bersaglio.Riga, bersaglio.Colonna].SimboloNave = 'X';
+                campoNemico.Casella[bersaglio.Riga, bersaglio.Colonna].SimboloCasella = 'X';
             }
 
             return colpito;

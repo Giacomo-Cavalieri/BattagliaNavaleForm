@@ -45,20 +45,20 @@
             // 
             this.panelCampoGiocatore_1.Location = new System.Drawing.Point(12, 157);
             this.panelCampoGiocatore_1.Name = "panelCampoGiocatore_1";
-            this.panelCampoGiocatore_1.Size = new System.Drawing.Size(500, 500);
+            this.panelCampoGiocatore_1.Size = new System.Drawing.Size(400, 400);
             this.panelCampoGiocatore_1.TabIndex = 0;
             // 
             // panelCampoGiocatore_2
             // 
-            this.panelCampoGiocatore_2.Location = new System.Drawing.Point(739, 157);
+            this.panelCampoGiocatore_2.Location = new System.Drawing.Point(839, 157);
             this.panelCampoGiocatore_2.Name = "panelCampoGiocatore_2";
-            this.panelCampoGiocatore_2.Size = new System.Drawing.Size(500, 500);
+            this.panelCampoGiocatore_2.Size = new System.Drawing.Size(400, 400);
             this.panelCampoGiocatore_2.TabIndex = 1;
             // 
             // naviPosizionateBtn
             // 
             this.naviPosizionateBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.naviPosizionateBtn.Location = new System.Drawing.Point(518, 378);
+            this.naviPosizionateBtn.Location = new System.Drawing.Point(510, 309);
             this.naviPosizionateBtn.Name = "naviPosizionateBtn";
             this.naviPosizionateBtn.Size = new System.Drawing.Size(215, 64);
             this.naviPosizionateBtn.TabIndex = 2;

@@ -38,25 +38,25 @@ namespace BattagliaNavale
 
 
         // picturebox per stampare il sottomarino
-        public PictureBox Sottomarino_1
+        public PictureBox Sottomarino_1Pic
         {
             get { return this.sottomarino_1Pic; }
             set { this.sottomarino_1Pic = value; }
         }
 
-        public PictureBox Sottomarino_2
+        public PictureBox Sottomarino_2Pic
         {
             get { return this.sottomarino_2Pic; }
             set { this.sottomarino_2Pic = value; }
         }
 
-        public PictureBox Sottomarino_3
+        public PictureBox Sottomarino_3Pic
         {
             get { return this.sottomarino_3Pic; }
             set { this.sottomarino_3Pic = value; }
         }
 
-        public PictureBox Sottomarino_4
+        public PictureBox Sottomarino_4Pic
         {
             get { return this.sottomarino_4Pic; }
             set { this.sottomarino_4Pic = value; }

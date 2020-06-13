@@ -69,7 +69,7 @@ namespace ModelloBattagliaNavale
                     for (int i = 0; i < this.Lunghezza; i++)
                     {
                         // Disegno nella griglia il simbolo della nave
-                        campo.Casella[cordinata.Riga, cordinata.Colonna + i].SimboloNave = this.SimboloNave;
+                        campo.Casella[cordinata.Riga, cordinata.Colonna + i].SimboloCasella = this.SimboloNave;
                         // Setto la casella come occupata
                         campo.Casella[cordinata.Riga, cordinata.Colonna + i].StatoCasella = Stato.occupata;
                         // Salvo nella nave la posizione nella griglia
@@ -106,7 +106,7 @@ namespace ModelloBattagliaNavale
                     for (int i = 0; i < this.Lunghezza; i++)
                     {
                         // Disegno nella griglia il simbolo della nave
-                        campo.Casella[cordinata.Riga + i, cordinata.Colonna].SimboloNave = this.SimboloNave;
+                        campo.Casella[cordinata.Riga + i, cordinata.Colonna].SimboloCasella = this.SimboloNave;
                         // Setto la casella come occupata
                         campo.Casella[cordinata.Riga + i, cordinata.Colonna].StatoCasella = Stato.occupata;
                         // Salvo nella nave la posizione nella griglia

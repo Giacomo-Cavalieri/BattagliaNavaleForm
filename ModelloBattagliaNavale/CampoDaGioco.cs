@@ -31,7 +31,7 @@ namespace ModelloBattagliaNavale
                 for (int j = 0; j < Dimensione; j++)
                 {
                     this.Casella[i, j] = new Casella(i, j);
-                    this.Casella[i, j].SimboloNave = ' ';
+                    this.Casella[i, j].SimboloCasella = ' ';
                 }
             }
         }

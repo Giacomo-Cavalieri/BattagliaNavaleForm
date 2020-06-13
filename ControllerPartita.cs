@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,13 +17,15 @@ namespace BattagliaNavale
         private Giocatore giocatore_1;
         private Giocatore giocatore_2;
         private static ControllerPartita istanza;
-        
+
+        Nave naveSelezionata;
+
+
 
 
         // Costruttore della classe
         private ControllerPartita()
         {
-
             this.giocatore_1 = new Giocatore("Giacomo");
             this.giocatore_2 = new Giocatore("Pavel");
             this.formPartita = new PartitaForm();
@@ -81,41 +84,93 @@ namespace BattagliaNavale
                     // Aggiungo i bottoni al panel del giocatore
                     panel.Controls.Add(campoBtn[i, j]);
 
+                    
 
                     // Stampo i bottoni in punti precisi del panel
                     campoBtn[i, j].Location = new Point(i * dimensioneBottone, j * dimensioneBottone);
-
+                    // utilizzo un tag per salvare la posizione del bottone
+                    campoBtn[i, j].Tag = new Point(i, j);
                 }
             }
         }
 
         private void bottoneCampoDaGioco_Click(object sender, MouseEventArgs e)
         {
-            MessageBox.Show("Hai cliccato un bottone del campo da gioco");
+            // Ottengo le cordinate del bottone cliccato
+            Button bottoneCliccato = (Button) sender;
+            Point posizione = (Point)bottoneCliccato.Tag;            
+
+            Casella casellaSelezionata = new Casella(posizione.Y, posizione.X);
+
+            string test1 = "( " + casellaSelezionata.Riga + ", " + casellaSelezionata.Colonna + ")";
+            if(naveSelezionata == null)
+            {
+                MessageBox.Show("Non hai ancora selezionato nessuna nave");
+            }
+            else
+            {
+                string test = "caselle occupata dalla nave: (";
+                MessageBox.Show("Hai selezionato la nave " + naveSelezionata.Nome + " e le coordinate " + test1);
+                // Inserisco in griglia la nave selezionata
+                naveSelezionata.InserimentoNave(casellaSelezionata, giocatore_1.MioCampo, true);
+                for (int i = 0; i < giocatore_1.ListaNavi[6].Lunghezza; i++)
+                {
+                    test += giocatore_1.ListaNavi[6].Posizione[i].Riga;
+                    test += ",";
+                    test += giocatore_1.ListaNavi[6].Posizione[i].Colonna;
+                }
+                test += ")";
+                MessageBox.Show(test);
+                stampaCampo(formPartita.PanelGiocatore_1, giocatore_1.MioCampo);
+            }            
         }
 
 
         // metodo per inizializzare i vari click delle varie navi
-        private void InizializzaEventi()
+        public void InizializzaEventi()
         {
-            this.formPartita.Sottomarino_1.MouseClick += new MouseEventHandler(this.sottomarino_Click);         
+            this.formPartita.Sottomarino_1Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.Sottomarino_2Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.Sottomarino_3Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.Sottomarino_4Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
         }
 
-        private void sottomarino_Click(object sender, MouseEventArgs e)
+        // Metodo per 
+        public void naveSelezionata_Click(object sender, MouseEventArgs e)
         {
-            MessageBox.Show("Hai cliccato il sottomarino!!!!!");
+            
+            PictureBox picSelezionata = sender as PictureBox;
+            // Serie di if-else per capire quale nave ha selezionato il giocatore
+            if (sender.Equals(this.formPartita.Sottomarino_1Pic))
+            {
+                naveSelezionata = giocatore_1.ListaNavi[6];
+                
+            }
+            else if (sender.Equals(this.formPartita.Sottomarino_2Pic))
+            {
+                naveSelezionata = giocatore_1.ListaNavi[7];
+            }
+            else if (sender.Equals(this.formPartita.Sottomarino_3Pic))
+            {
+                naveSelezionata = giocatore_1.ListaNavi[8];
+            }
+            else if (sender.Equals(this.formPartita.Sottomarino_4Pic))
+            {
+                naveSelezionata = giocatore_1.ListaNavi[9];
+            }
+            
         }
 
 
 
         // Metodo per mostrare il form della partita
-        public void MostraPartita()
+        public void MostraPartitaForm()
         {
-            // Carico l'immagine del sottomarino
-            this.formPartita.Sottomarino_1.Image = (Image)Properties.Resources.sottomarinoPic;
-            this.formPartita.Sottomarino_2.Image = (Image)Properties.Resources.sottomarinoPic;
-            this.formPartita.Sottomarino_3.Image = (Image)Properties.Resources.sottomarinoPic;
-            this.formPartita.Sottomarino_4.Image = (Image)Properties.Resources.sottomarinoPic;
+            // Carico l'immagine dei sottomarini
+            this.formPartita.Sottomarino_1Pic.Image = (Image)Properties.Resources.sottomarinoPic;
+            this.formPartita.Sottomarino_2Pic.Image = (Image)Properties.Resources.sottomarinoPic;
+            this.formPartita.Sottomarino_3Pic.Image = (Image)Properties.Resources.sottomarinoPic;
+            this.formPartita.Sottomarino_4Pic.Image = (Image)Properties.Resources.sottomarinoPic;
             this.formPartita.ShowDialog();
         }
     }

@@ -20,7 +20,7 @@ namespace ModelloBattagliaNavale
         public Stato StatoCasella { get; set; }
 
 
-        public char SimboloNave { get; set; }
+        public char SimboloCasella { get; set; }
 
         public int Riga
         {
