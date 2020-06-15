@@ -103,5 +103,14 @@
   <ItemGroup>
     <None Include="Resources\sottomarino.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\portaerei.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\incrociatore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\torpediniere.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

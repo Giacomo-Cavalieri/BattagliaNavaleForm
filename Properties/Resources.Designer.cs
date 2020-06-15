@@ -63,6 +63,26 @@ namespace BattagliaNavale.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap incrociatorePic {
+            get {
+                object obj = ResourceManager.GetObject("incrociatorePic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap portaereiPic {
+            get {
+                object obj = ResourceManager.GetObject("portaereiPic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap sfondoMenuPrincipale {
             get {
                 object obj = ResourceManager.GetObject("sfondoMenuPrincipale", resourceCulture);
@@ -76,6 +96,16 @@ namespace BattagliaNavale.Properties {
         internal static System.Drawing.Bitmap sottomarinoPic {
             get {
                 object obj = ResourceManager.GetObject("sottomarinoPic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap torpedinierePic {
+            get {
+                object obj = ResourceManager.GetObject("torpedinierePic", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

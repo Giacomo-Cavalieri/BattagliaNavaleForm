@@ -21,6 +21,7 @@ namespace BattagliaNavale
         public Button NaviPosizionateBtn
         {
             get { return this.naviPosizionateBtn; }
+            set { this.naviPosizionateBtn = value; }
         }
 
 
@@ -60,6 +61,48 @@ namespace BattagliaNavale
         {
             get { return this.sottomarino_4Pic; }
             set { this.sottomarino_4Pic = value; }
+        }
+
+        public PictureBox Portaerei_Pic
+        {
+            get { return this.portaerei_Pic; }
+            set { this.portaerei_Pic = value; }
+        }
+
+        public PictureBox Incrociatore_1Pic
+        {
+            get { return this.incrociatore_1Pic; }
+            set { this.incrociatore_1Pic = value; }
+        }
+
+        public PictureBox Incrociatore_2Pic
+        {
+            get { return this.incrociatore_2Pic; }
+            set { this.incrociatore_2Pic = value; }
+        }
+
+        public PictureBox Torpediniere_1Pic
+        {
+            get { return this.torpediniere_1Pic; }
+            set { this.torpediniere_1Pic = value; }
+        }
+
+        public PictureBox Torpediniere_2Pic
+        {
+            get { return this.torpediniere_2Pic; }
+            set { this.torpediniere_2Pic = value; }
+        }
+        public PictureBox Torpediniere_3Pic
+        {
+            get { return this.torpediniere_3Pic; }
+            set { this.torpediniere_3Pic = value; }
+        }
+
+
+        public Label ConsoleLabel
+        {
+            get { return this.consoleLabel; }
+            set { this.consoleLabel = value; }
         }
     }
 }
