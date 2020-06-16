@@ -104,5 +104,11 @@ namespace BattagliaNavale
             get { return this.consoleLabel; }
             set { this.consoleLabel = value; }
         }
+
+        public PictureBox SfondoPartita
+        {
+            get { return this.sfondoPartitaPic; }
+            set { this.sfondoPartitaPic = value; }
+        }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
@@ -19,10 +20,14 @@ namespace BattagliaNavale
         private Giocatore giocatore_2;
         private static ControllerPartita istanza;
 
-        private Button[,] campoBtn;
+        // Dichiaro una variabile bottone che sarà una matrice di dimensione 10
+        private Button[,] campoG1Btn;
+        private Button[,] campoG2Btn;
 
 
         private Nave naveSelezionata;
+
+        private bool direzioneInserimento;
 
 
 
@@ -32,9 +37,15 @@ namespace BattagliaNavale
         {
             this.giocatore_1 = new Giocatore("Giacomo");
             this.giocatore_2 = new Giocatore("Pavel");
-            this.campoBtn = new Button[giocatore_1.MioCampo.Dimensione, giocatore_1.MioCampo.Dimensione];
+            
             this.formPartita = new PartitaForm();
             this.formPartita.FormBorderStyle = FormBorderStyle.FixedDialog;
+
+            this.campoG1Btn = new Button[giocatore_1.MioCampo.Dimensione, giocatore_1.MioCampo.Dimensione];
+
+            this.campoG2Btn = new Button[giocatore_2.MioCampo.Dimensione, giocatore_2.MioCampo.Dimensione];
+
+            this.direzioneInserimento = true;
 
             // Metodo dove inizializzo i vari click
             InizializzaEventi();
@@ -57,18 +68,15 @@ namespace BattagliaNavale
 
             // Messaggio di benvenuto            
             formPartita.ConsoleLabel.Text = "Per iniziare seleziona una nave e inseriscila in campo!!";
-            // Dichiaro le variabili necessarie
-
-
 
             // 1)Invoco la funzione per la stampa dei campi dei giocatori
-            stampaCampo(formPartita.PanelGiocatore_1, giocatore_1.MioCampo);
-            //stampaCampo(formPartita.PanelGiocatore_2, giocatore_2.MioCampo);
+            stampaCampo(formPartita.PanelGiocatore_1, giocatore_1.MioCampo, campoG1Btn);
+            //stampaCampo(formPartita.PanelGiocatore_2, giocatore_2.MioCampo, campoG2Btn);
         }
 
-        private void stampaCampo(Panel panel, CampoDaGioco campoDaGioco)
+        private void stampaCampo(Panel panel, CampoDaGioco campoDaGioco, Button[,] bottone)
         {
-            // Dichiaro una variabile bottone che sarà una matrice di dimensione 10
+            
             
             // Setto la dimensione dei bottoni del campo da gioco
             int dimensioneBottone = panel.Width / campoDaGioco.Dimensione;
@@ -81,30 +89,35 @@ namespace BattagliaNavale
             {
                 for (int j = 0; j < campoDaGioco.Dimensione; j++)
                 {
-                    campoBtn[i, j] = new Button();
-                    campoBtn[i, j].Height = dimensioneBottone;
-                    campoBtn[i, j].Width = dimensioneBottone;
+                    
+                    bottone[i, j] = new Button();
+                    bottone[i, j].Height = dimensioneBottone;
+                    bottone[i, j].Width = dimensioneBottone;
 
                     // Aggiungo un evento ad ogni click per ogni bottone
-                    campoBtn[i, j].MouseClick += bottoneCampoDaGioco_Click;
+                    bottone[i, j].MouseDown += bottoneCampoDaGioco_Click;
 
 
                     // Aggiungo i bottoni al panel del giocatore
-                    panel.Controls.Add(campoBtn[i, j]);
+                    panel.Controls.Add(bottone[i, j]);
 
                     
 
                     // Stampo i bottoni in punti precisi del panel
-                    campoBtn[i, j].Location = new Point(j * dimensioneBottone, i * dimensioneBottone);
+                    bottone[i, j].Location = new Point(j * dimensioneBottone, i * dimensioneBottone);
+                    
                     // utilizzo un tag per salvare la posizione del bottone
-                    campoBtn[i, j].Text = i + " | " + j;
-                    campoBtn[i, j].Tag = new Point(i, j);
+                    //bottone[i, j].Text = i + " | " + j;
+                    bottone[i, j].Tag = new Point(i, j);
+
+                    
                 }
             }
         }
 
         private void bottoneCampoDaGioco_Click(object sender, MouseEventArgs e)
         {
+            
             // Ottengo le cordinate del bottone cliccato
             Button bottoneCliccato = (Button) sender;
             Point posizione = (Point)bottoneCliccato.Tag;
@@ -112,7 +125,7 @@ namespace BattagliaNavale
 
             Casella casellaSelezionata = new Casella(posizione.X, posizione.Y);
 
-            formPartita.ConsoleLabel.Text = "Hai selezionato le cordinate (" + casellaSelezionata.Riga + ", " + casellaSelezionata.Colonna + ")";
+            formPartita.ConsoleLabel.Text = "Hai selezionato le cordinate (" + casellaSelezionata.Riga + ", " + casellaSelezionata.Colonna + ")" + direzioneInserimento;
 
             
             if(naveSelezionata == null)
@@ -121,26 +134,77 @@ namespace BattagliaNavale
             }
             else
             {
-                
-                // Inserisco in griglia la nave selezionata
-                if (naveSelezionata.Inserita)
+                switch (e.Button)
                 {
-                    formPartita.ConsoleLabel.Text = "La nave selezionata è gia stata inserita. Provane un'altra idiota!!!";
-                }
-                else
-                {
-                    naveSelezionata.InserimentoNave(casellaSelezionata, giocatore_1.MioCampo, true);                   
+                    case MouseButtons.Right:
+                        // Se premo il tasto destro del mouse devo modificare la direzione dell'inserimento da orizzontale
+                        // a verticale o viceversa                        
 
-                    // Aggiorno il testo delle caselle in modo da notificare all'utente l'inserimento della nave
-                    for (int i = 0; i < naveSelezionata.Lunghezza; i++)
-                    {
-                        campoBtn[naveSelezionata.Posizione[i].Riga, naveSelezionata.Posizione[i].Colonna].Text = "" + naveSelezionata.SimboloNave;
-                        campoBtn[naveSelezionata.Posizione[i].Riga, naveSelezionata.Posizione[i].Colonna].BackColor = Color.Gray;                                            
-                    }
-                }                
-            }            
+                        direzioneInserimento = !direzioneInserimento;
+                        formPartita.ConsoleLabel.Text = "valore di direzioneInserimento:" + direzioneInserimento;
+
+                        break;
+                    case MouseButtons.Left:
+                        // Controllo che la nave non sia stata inserita in precedenza
+                        if (naveSelezionata.Inserita)
+                        {
+                            formPartita.ConsoleLabel.Text = "La nave selezionata è gia stata inserita. Provane un'altra idiota!!!";
+                        }
+                        else
+                        {
+                            // Provo l'inserimento della nave nel campo del giocatore                            
+                            naveSelezionata.InserimentoNave(casellaSelezionata, giocatore_1.MioCampo, direzioneInserimento);
+                            // Condizione if per controllare che l'inserimento sia andato a buon fine
+                            if (naveSelezionata.Inserita)
+                            {
+                                // Se l'inserimento è andato a buon fine aggiorno il campo da gioco del giocatore in modo che l'utente
+                                // possa vedere l'avvenuto inserimento
+                                for (int i = 0; i < naveSelezionata.Lunghezza; i++)
+                                {
+                                    campoG1Btn[naveSelezionata.Posizione[i].Riga, naveSelezionata.Posizione[i].Colonna].Text = "" + naveSelezionata.SimboloNave;
+                                    campoG1Btn[naveSelezionata.Posizione[i].Riga, naveSelezionata.Posizione[i].Colonna].BackColor = Color.Gray;
+                                }
+                            }
+                            else
+                            {
+                                formPartita.ConsoleLabel.Text = "La casella e/o la direzione scelta non risulta valida";
+                            }
+                        }
+                        break;                    
+                }                                       
+            }
+            // Invoco la funzione che andrà a controllare se la partita può iniziare
+            controlloInizioPartita();
         }
 
+
+        // Metodo che controlla se tutte le navi del giocatore sono state inserite.
+        // In caso positivo, la partita può iniziare
+        public void controlloInizioPartita()
+        {
+            bool naviPosizionate = true;
+            // Ciclo foreach per controllare lo stato di tutte le navi
+            foreach (Nave naveAttuale in giocatore_1.ListaNavi)
+            {
+                // Se anche solo una nave non è stata inserita il bottone non verrà mai stampato
+                if (naveAttuale.Inserita != true)
+                {
+                    naviPosizionate = false;
+                }
+                
+                if (naviPosizionate)
+                {
+                    // il bottone può essere stampato
+                    this.formPartita.NaviPosizionateBtn.Visible = true;
+                }                
+                else
+                {
+                    // il bottone non sarà stampato
+                    this.formPartita.NaviPosizionateBtn.Visible = false;
+                }
+
+            }
+        }
 
         // metodo per inizializzare i vari click delle varie navi
         public void InizializzaEventi()
@@ -154,7 +218,25 @@ namespace BattagliaNavale
             this.formPartita.Sottomarino_1Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
             this.formPartita.Sottomarino_2Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
             this.formPartita.Sottomarino_3Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
-            this.formPartita.Sottomarino_4Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);            
+            this.formPartita.Sottomarino_4Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.NaviPosizionateBtn.MouseClick += new MouseEventHandler(this.naviPosizionate_Click);
+        }
+
+        private void naviPosizionate_Click(object sender, MouseEventArgs e)
+        {
+            stampaCampo(formPartita.PanelGiocatore_2, giocatore_2.MioCampo, campoG2Btn);
+            giocatore_2.CollocaNaviIA();
+
+            for (int i = 0; i < giocatore_2.MioCampo.Dimensione; i++)
+            {
+                for (int j = 0; j < giocatore_2.MioCampo.Dimensione; j++)
+                {
+                    if(giocatore_2.MioCampo.Casella[i, j].StatoCasella == Stato.occupata)
+                    {
+                        campoG2Btn[i, j].Text = "" + giocatore_2.MioCampo.Casella[i, j].SimboloCasella;
+                    }
+                }
+            }
         }
 
         // Metodo per gestire quale nave ha selezionato l'utente
@@ -230,18 +312,50 @@ namespace BattagliaNavale
             // Carico l'immagine delle navi
             // Portaerei
             this.formPartita.Portaerei_Pic.Image = (Image)Properties.Resources.portaereiPic;
+            this.formPartita.Portaerei_Pic.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.Portaerei_Pic.BackColor = Color.Transparent;
             // Incrociatori
             this.formPartita.Incrociatore_1Pic.Image = (Image)Properties.Resources.incrociatorePic;
+            this.formPartita.Incrociatore_1Pic.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.Incrociatore_1Pic.BackColor = Color.Transparent;
             this.formPartita.Incrociatore_2Pic.Image = (Image)Properties.Resources.incrociatorePic;
+            this.formPartita.Incrociatore_2Pic.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.Incrociatore_2Pic.BackColor = Color.Transparent;
             // Torpedinieri
             this.formPartita.Torpediniere_1Pic.Image = (Image)Properties.Resources.torpedinierePic;
+            this.formPartita.Torpediniere_1Pic.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.Torpediniere_1Pic.BackColor = Color.Transparent;
             this.formPartita.Torpediniere_2Pic.Image = (Image)Properties.Resources.torpedinierePic;
+            this.formPartita.Torpediniere_2Pic.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.Torpediniere_2Pic.BackColor = Color.Transparent;
             this.formPartita.Torpediniere_3Pic.Image = (Image)Properties.Resources.torpedinierePic;
+            this.formPartita.Torpediniere_3Pic.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.Torpediniere_3Pic.BackColor = Color.Transparent;
             // Sottomarini
             this.formPartita.Sottomarino_1Pic.Image = (Image)Properties.Resources.sottomarinoPic;
+            this.formPartita.Sottomarino_1Pic.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.Sottomarino_1Pic.BackColor = Color.Transparent;
             this.formPartita.Sottomarino_2Pic.Image = (Image)Properties.Resources.sottomarinoPic;
+            this.formPartita.Sottomarino_2Pic.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.Sottomarino_2Pic.BackColor = Color.Transparent;
             this.formPartita.Sottomarino_3Pic.Image = (Image)Properties.Resources.sottomarinoPic;
+            this.formPartita.Sottomarino_3Pic.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.Sottomarino_3Pic.BackColor = Color.Transparent;
             this.formPartita.Sottomarino_4Pic.Image = (Image)Properties.Resources.sottomarinoPic;
+            this.formPartita.Sottomarino_4Pic.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.Sottomarino_4Pic.BackColor = Color.Transparent;
+
+            // Sfondo
+            this.formPartita.SfondoPartita.Image = (Image)Properties.Resources.sfondoPartitaPic;
+            // Panel Giocatore 1
+            this.formPartita.PanelGiocatore_1.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.PanelGiocatore_1.BackColor = Color.Transparent;
+            // Panel Giocatore 2
+            this.formPartita.PanelGiocatore_2.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.PanelGiocatore_2.BackColor = Color.Transparent;
+            // Label console
+            this.formPartita.ConsoleLabel.Parent = this.formPartita.SfondoPartita;
+            this.formPartita.ConsoleLabel.BackColor = Color.Transparent;
             
             // Visualizzo il form
             this.formPartita.ShowDialog();

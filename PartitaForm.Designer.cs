@@ -42,6 +42,7 @@
             this.torpediniere_2Pic = new System.Windows.Forms.PictureBox();
             this.torpediniere_3Pic = new System.Windows.Forms.PictureBox();
             this.consoleLabel = new System.Windows.Forms.Label();
+            this.sfondoPartitaPic = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.sottomarino_1Pic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sottomarino_2Pic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sottomarino_3Pic)).BeginInit();
@@ -52,6 +53,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.torpediniere_1Pic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.torpediniere_2Pic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.torpediniere_3Pic)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sfondoPartitaPic)).BeginInit();
             this.SuspendLayout();
             // 
             // panelCampoGiocatore_1
@@ -81,7 +83,7 @@
             // 
             // sottomarino_1Pic
             // 
-            this.sottomarino_1Pic.Location = new System.Drawing.Point(337, 141);
+            this.sottomarino_1Pic.Location = new System.Drawing.Point(294, 141);
             this.sottomarino_1Pic.Name = "sottomarino_1Pic";
             this.sottomarino_1Pic.Size = new System.Drawing.Size(48, 35);
             this.sottomarino_1Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -90,7 +92,7 @@
             // 
             // sottomarino_2Pic
             // 
-            this.sottomarino_2Pic.Location = new System.Drawing.Point(240, 141);
+            this.sottomarino_2Pic.Location = new System.Drawing.Point(206, 141);
             this.sottomarino_2Pic.Name = "sottomarino_2Pic";
             this.sottomarino_2Pic.Size = new System.Drawing.Size(48, 35);
             this.sottomarino_2Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -99,7 +101,7 @@
             // 
             // sottomarino_3Pic
             // 
-            this.sottomarino_3Pic.Location = new System.Drawing.Point(152, 141);
+            this.sottomarino_3Pic.Location = new System.Drawing.Point(117, 141);
             this.sottomarino_3Pic.Name = "sottomarino_3Pic";
             this.sottomarino_3Pic.Size = new System.Drawing.Size(48, 35);
             this.sottomarino_3Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -108,7 +110,7 @@
             // 
             // sottomarino_4Pic
             // 
-            this.sottomarino_4Pic.Location = new System.Drawing.Point(57, 141);
+            this.sottomarino_4Pic.Location = new System.Drawing.Point(27, 141);
             this.sottomarino_4Pic.Name = "sottomarino_4Pic";
             this.sottomarino_4Pic.Size = new System.Drawing.Size(48, 35);
             this.sottomarino_4Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -176,17 +178,27 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.consoleLabel.AutoSize = true;
             this.consoleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.consoleLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.consoleLabel.Location = new System.Drawing.Point(436, 43);
             this.consoleLabel.Name = "consoleLabel";
             this.consoleLabel.Size = new System.Drawing.Size(92, 25);
             this.consoleLabel.TabIndex = 13;
             this.consoleLabel.Text = "Console";
             // 
+            // sfondoPartitaPic
+            // 
+            this.sfondoPartitaPic.Location = new System.Drawing.Point(-2, 0);
+            this.sfondoPartitaPic.Name = "sfondoPartitaPic";
+            this.sfondoPartitaPic.Size = new System.Drawing.Size(1255, 589);
+            this.sfondoPartitaPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.sfondoPartitaPic.TabIndex = 14;
+            this.sfondoPartitaPic.TabStop = false;
+            // 
             // PartitaForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1251, 669);
+            this.ClientSize = new System.Drawing.Size(1251, 589);
             this.Controls.Add(this.consoleLabel);
             this.Controls.Add(this.torpediniere_3Pic);
             this.Controls.Add(this.torpediniere_2Pic);
@@ -201,6 +213,7 @@
             this.Controls.Add(this.naviPosizionateBtn);
             this.Controls.Add(this.panelCampoGiocatore_2);
             this.Controls.Add(this.panelCampoGiocatore_1);
+            this.Controls.Add(this.sfondoPartitaPic);
             this.MaximizeBox = false;
             this.Name = "PartitaForm";
             this.Text = "PartitaForm";
@@ -214,6 +227,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.torpediniere_1Pic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.torpediniere_2Pic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.torpediniere_3Pic)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sfondoPartitaPic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -235,5 +249,6 @@
         private System.Windows.Forms.PictureBox torpediniere_2Pic;
         private System.Windows.Forms.PictureBox torpediniere_3Pic;
         private System.Windows.Forms.Label consoleLabel;
+        private System.Windows.Forms.PictureBox sfondoPartitaPic;
     }
 }

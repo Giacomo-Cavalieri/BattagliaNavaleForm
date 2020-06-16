@@ -93,6 +93,16 @@ namespace BattagliaNavale.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap sfondoPartitaPic {
+            get {
+                object obj = ResourceManager.GetObject("sfondoPartitaPic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap sottomarinoPic {
             get {
                 object obj = ResourceManager.GetObject("sottomarinoPic", resourceCulture);
