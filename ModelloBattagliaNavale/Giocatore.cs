@@ -44,50 +44,8 @@ namespace ModelloBattagliaNavale
             this.MioCampo = new CampoDaGioco(10);
                         
         }
-
-        // Metodo per sparare dell'IA
-        public bool FaccioFuoco(Giocatore avversario)
-        {
-            bool colpito = false;
-            Casella bersaglio = new Casella();
-
-            /* racchiudo la generazione della cordinata casuale in un ciclo do-while in modo da essere
-             * sicuro che le cordinate generate possano essere accettate.
-             */
-
-            do
-            {                
-                // Genero un seme sempre diverso
-                Random rand = new Random((int)DateTime.Now.Millisecond);
-                // genero 2 numeri: uno per la riga, l'altro per la colonna
-                bersaglio.Riga = rand.Next(0, 10);
-                bersaglio.Colonna = rand.Next(0, 10);
-
-                Console.WriteLine("generata la coordinata (" + bersaglio.Riga + ", " + bersaglio.Colonna + ")");
-                
-            } while (avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella == Stato.colpita ||
-                     avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella == Stato.mancata);
-
-            // Controllo che nella casella bersaglio sia presente una nave
-            if (avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella == Stato.occupata)
-            {
-                colpito = true;
-                // cambio lo stato della casella in modo che non possa essere più colpita
-                avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella = Stato.colpita;
-                avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].SimboloCasella = 'O';
-                Console.WriteLine("casella colpitaaaaaaaaaaaaa!!!!!");
-            }
-            else
-            {
-                Console.WriteLine("casella mancataaaaaaaaaaaaa!!!!!!");
-                // anche se non è stata colpita nessuna nave devo cambiare lo stato della casella
-                avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella = Stato.mancata;
-                avversario.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].SimboloCasella = 'X';
-            }
-            return colpito;
-        }
-
-        // Overload del metodo per sparare nel campo dell'avversario. Questo metodo è per un giocatore umano
+       
+        // Metodo per sparare nel campo dell'avversario
         public bool FaccioFuoco(Casella bersaglio, CampoDaGioco campoNemico)
         {
             bool colpito = false;
@@ -153,8 +111,8 @@ namespace ModelloBattagliaNavale
         public bool ControllaNaveColpita(Casella casellaBersagliata)
         {
             bool naveAffondata = false;
-            // Ciclo foreach per trovare quale nave del giocatore è stata colpita
-            foreach (Nave naveAttuale in this.ListaNavi)
+            // Ciclo foreach per trovare quale nave del giocatore è stata colpita            
+            foreach (Nave naveAttuale in this.ListaNavi.ToList())
             {
                 // ciclo for per controllare se la naveAttuale sia la nave bersagliata
                 for (int i = 0; i < naveAttuale.Lunghezza; i++)
@@ -171,6 +129,9 @@ namespace ModelloBattagliaNavale
                 if (naveAffondata)
                 {
                     naveAttuale.Affondata = true;
+                    ListaNavi.Remove(naveAttuale);
+                    Console.WriteLine("Stato della nave " + naveAttuale.Affondata);
+
                 }
                 
             }
@@ -182,19 +143,14 @@ namespace ModelloBattagliaNavale
         public bool GameOver()
         {
             // Variabili utili alla funzione
-            bool gameOver = true;
+            bool gameOver = false;
 
             // Ciclo foreach che va a controllare la variabile Affondata di tutte le navi possedute dal giocatore
             
-            foreach (Nave naveAttuale in this.ListaNavi)
+            if(ListaNavi.Count == 0)
             {
-                // Se la nave che si sta osservando in questo momento ha la variabile Affondata settata a false
-                // il gameover non sussiste e quindi setto la variabile gameover a false
-                if(naveAttuale.Affondata == false)
-                {                    
-                    gameOver = false;
-                }                
-            }            
+                gameOver = true;
+            }
             return gameOver;
         }
     }

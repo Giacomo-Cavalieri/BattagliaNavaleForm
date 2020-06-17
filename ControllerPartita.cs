@@ -29,6 +29,8 @@ namespace BattagliaNavale
 
         private bool direzioneInserimento;
 
+        private PictureBox picSelezionata;
+
 
 
 
@@ -65,55 +67,58 @@ namespace BattagliaNavale
 
         private void PreparazionePartita()
         {
-
             // Messaggio di benvenuto            
             formPartita.ConsoleLabel.Text = "Per iniziare seleziona una nave e inseriscila in campo!!";
 
-            // 1)Invoco la funzione per la stampa dei campi dei giocatori
-            stampaCampo(formPartita.PanelGiocatore_1, giocatore_1.MioCampo, campoG1Btn);
-            //stampaCampo(formPartita.PanelGiocatore_2, giocatore_2.MioCampo, campoG2Btn);
+            // Faccio inserire le navi all'IA
+            giocatore_2.CollocaNaviIA();
+
+            // Invoco la funzione per la stampa dei campi dei giocatori
+            stampaCampo();            
         }
 
-        private void stampaCampo(Panel panel, CampoDaGioco campoDaGioco, Button[,] bottone)
-        {
-            
-            
+        private void stampaCampo()
+        {           
             // Setto la dimensione dei bottoni del campo da gioco
-            int dimensioneBottone = panel.Width / campoDaGioco.Dimensione;
-            // Faccio in modo che il panel sia un quadrato perfetto
-            panel.Height = panel.Width;
+            int dimensioneBottone = formPartita.PanelGiocatore_1.Width / giocatore_1.MioCampo.Dimensione;
+            // Faccio in modo che i panel siano un quadrato perfetto
+            formPartita.PanelGiocatore_1.Height = formPartita.PanelGiocatore_1.Width;
+            formPartita.PanelGiocatore_2.Height = formPartita.PanelGiocatore_2.Width;
 
 
             // Doppio ciclo for per creare i bottoni e stamparli a schermo
-            for (int i = 0; i < campoDaGioco.Dimensione; i++)
+            for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
             {
-                for (int j = 0; j < campoDaGioco.Dimensione; j++)
+                for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
                 {
-                    
-                    bottone[i, j] = new Button();
-                    bottone[i, j].Height = dimensioneBottone;
-                    bottone[i, j].Width = dimensioneBottone;
-
+                    // Bottoni per il giocatore 1
+                    campoG1Btn[i, j] = new Button();
+                    campoG1Btn[i, j].Height = dimensioneBottone;
+                    campoG1Btn[i, j].Width = dimensioneBottone;
+                    // Bottoni per il giocatore 2
+                    campoG2Btn[i, j] = new Button();
+                    campoG2Btn[i, j].Height = dimensioneBottone;
+                    campoG2Btn[i, j].Width = dimensioneBottone;
                     // Aggiungo un evento ad ogni click per ogni bottone
-                    bottone[i, j].MouseDown += bottoneCampoDaGioco_Click;
-
-
-                    // Aggiungo i bottoni al panel del giocatore
-                    panel.Controls.Add(bottone[i, j]);
-
+                    campoG1Btn[i, j].MouseDown += bottoneCampoDaGioco_Click;
                     
 
-                    // Stampo i bottoni in punti precisi del panel
-                    bottone[i, j].Location = new Point(j * dimensioneBottone, i * dimensioneBottone);
-                    
-                    // utilizzo un tag per salvare la posizione del bottone
-                    //bottone[i, j].Text = i + " | " + j;
-                    bottone[i, j].Tag = new Point(i, j);
+                    // Aggiungo i bottoni ai rispettivi panel
+                    formPartita.PanelGiocatore_1.Controls.Add(campoG1Btn[i, j]);
+                    formPartita.PanelGiocatore_2.Controls.Add(campoG2Btn[i, j]);
 
-                    
+                    // Stampo i bottoni in punti precisi dei panel
+                    campoG1Btn[i, j].Location = new Point(j * dimensioneBottone, i * dimensioneBottone);
+                    campoG2Btn[i, j].Location = new Point(j * dimensioneBottone, i * dimensioneBottone);
+
+                    // utilizzo un tag per salvare la posizione del bottone                    
+                    campoG1Btn[i, j].Tag = new Point(i, j);
+                    campoG2Btn[i, j].Tag = new Point(i, j);
                 }
             }
         }
+
+        
 
         private void bottoneCampoDaGioco_Click(object sender, MouseEventArgs e)
         {
@@ -159,6 +164,7 @@ namespace BattagliaNavale
                             {
                                 // Se l'inserimento è andato a buon fine aggiorno il campo da gioco del giocatore in modo che l'utente
                                 // possa vedere l'avvenuto inserimento
+                                picSelezionata.BackColor = Color.FromArgb(73, 255, 93);
                                 for (int i = 0; i < naveSelezionata.Lunghezza; i++)
                                 {
                                     campoG1Btn[naveSelezionata.Posizione[i].Riga, naveSelezionata.Posizione[i].Colonna].Text = "" + naveSelezionata.SimboloNave;
@@ -222,11 +228,9 @@ namespace BattagliaNavale
             this.formPartita.NaviPosizionateBtn.MouseClick += new MouseEventHandler(this.naviPosizionate_Click);
         }
 
+        // Metodo che darà il via alla partita
         private void naviPosizionate_Click(object sender, MouseEventArgs e)
         {
-            stampaCampo(formPartita.PanelGiocatore_2, giocatore_2.MioCampo, campoG2Btn);
-            giocatore_2.CollocaNaviIA();
-
             for (int i = 0; i < giocatore_2.MioCampo.Dimensione; i++)
             {
                 for (int j = 0; j < giocatore_2.MioCampo.Dimensione; j++)
@@ -237,73 +241,225 @@ namespace BattagliaNavale
                     }
                 }
             }
+            Partita();
+        }
+
+        private void Partita()
+        {
+            int numeroTurno = 1;
+            // Rendo invisibile il tasto navi posizionate btn
+            formPartita.NaviPosizionateBtn.Visible = false;
+            bool gameover = false;
+            
+            // Ciclo for per disabilitare il metodo dei bottoni del panel del giocatore 1
+            // e abilitare il metodo per il click dei bottoni nel campo dell'IA
+            for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
+            {
+                for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
+                {
+                    campoG1Btn[i,j].MouseDown -= bottoneCampoDaGioco_Click;
+                    //campoG2Btn[i, j].MouseClick += bottoneCampoAvversario_Click;
+                }
+            }
+            formPartita.ConsoleLabel.Text = "TURNO " + numeroTurno;
+            if(gameover == false)
+            {
+                turno();
+            }               
+        }    
+
+        private void turno()
+        {          
+            // Rendo cliccabili i bottoni del campo dell'IA
+            for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
+            {
+                for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
+                {
+                    campoG2Btn[i, j].MouseClick += bottoneCampoAvversario_Click;
+                }
+            }
+        }
+
+        private void turnoIA()
+        {
+            bool naveColpita;
+            bool colpitaeAffondata;
+            Casella bersaglio = new Casella();
+
+
+            /* racchiudo il generatore di cordinate casuali in un ciclo do-while in modo da essere
+             * sicuro che le cordinate generate possano essere accettate.
+             */
+            do
+            {
+                // Genero un seme sempre diverso
+                Random rand = new Random((int)DateTime.Now.Millisecond);
+                // Genero 2: uno per la riga, uno per la colonna
+                bersaglio.Riga = rand.Next(0, 10);
+                bersaglio.Colonna = rand.Next(0, 10);
+
+                formPartita.ConsoleLabel.Text = "Generata la cordinata (" + bersaglio.Riga + ", " + bersaglio.Colonna + ")";
+            } while (giocatore_1.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella == Stato.colpita ||
+                     giocatore_1.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella == Stato.mancata);
+
+            // Una volta generate le cordinate corrette faccio fuoco sul campo avversario
+            naveColpita = giocatore_2.FaccioFuoco(bersaglio, giocatore_1.MioCampo);
+
+
+            // Una volta sparato faccio un controllo nel caso la nave sia stata affondata
+            if (naveColpita)
+            {
+                // La nave è stata colpita, devo colorare la casella di rosso
+                campoG1Btn[bersaglio.Riga, bersaglio.Colonna].BackColor = Color.Red;
+                colpitaeAffondata = giocatore_1.ControllaNaveColpita(bersaglio);
+                if (colpitaeAffondata)
+                {
+                    formPartita.ConsoleLabel.Text = "Colpito e affondato!";
+                    if (giocatore_1.GameOver())
+                    {
+                        MessageBox.Show("gameover per il giocatore 1");
+                    }
+                }
+                else
+                {
+
+                    formPartita.ConsoleLabel.Text = "Colpito";
+                }
+            }
+            else
+            {
+                campoG1Btn[bersaglio.Riga, bersaglio.Colonna].BackColor = Color.Blue;
+                formPartita.ConsoleLabel.Text = "Mancato";
+            }
+        }
+
+        private void bottoneCampoAvversario_Click(object sender, MouseEventArgs e)
+        {
+            Button bottoneCliccato = (Button)sender;
+            Point posizione = (Point)bottoneCliccato.Tag;
+            bool naveColpita;
+            bool colpitaeAffondata;
+
+            foreach (Nave nave in giocatore_2.ListaNavi)
+            {                
+                
+                Console.WriteLine(nave.Nome);
+                
+            }
+
+            Casella casellaSelezionata = new Casella(posizione.X, posizione.Y);
+            formPartita.ConsoleLabel.Text = "Vuoi sparare nella casella con cordinate (" + casellaSelezionata.Riga + ", " + casellaSelezionata.Colonna + ")";
+
+            // Faccio un controllo preventivo per vedere se la casella può essere colpita
+            if (giocatore_2.MioCampo.Casella[casellaSelezionata.Riga, casellaSelezionata.Colonna].StatoCasella == Stato.colpita ||
+               giocatore_2.MioCampo.Casella[casellaSelezionata.Riga, casellaSelezionata.Colonna].StatoCasella == Stato.mancata)
+            {
+                formPartita.ConsoleLabel.Text = "La casella selezionata è già stata bersagliata in precedenza. Selezionare una casella differente";
+            }
+            else
+            {
+                // la casella è libera. Posso sparare
+                naveColpita = giocatore_1.FaccioFuoco(casellaSelezionata, giocatore_2.MioCampo);
+                // Una volta sparato faccio un controllo nel caso la nave sia stata affondata
+                if (naveColpita)
+                {
+                    // La nave è stata colpita, devo colorare la casella di rosso
+                    campoG2Btn[casellaSelezionata.Riga, casellaSelezionata.Colonna].BackColor = Color.Red;
+                    colpitaeAffondata = giocatore_2.ControllaNaveColpita(casellaSelezionata);
+                    if (colpitaeAffondata)
+                    {
+                        formPartita.ConsoleLabel.Text = "Colpito e affondato!";
+                        
+                        
+                        if (giocatore_2.GameOver())
+                        {
+                            MessageBox.Show("gameover per il giocatore 2");
+                        }
+                    }
+                    else
+                    {
+
+                        formPartita.ConsoleLabel.Text = "Colpito";
+                    }
+                }
+                else
+                {
+                    campoG2Btn[casellaSelezionata.Riga, casellaSelezionata.Colonna].BackColor = Color.Blue;
+                    formPartita.ConsoleLabel.Text = "Mancato";
+                }
+            }
+            
+            turnoIA();
+
         }
 
         // Metodo per gestire quale nave ha selezionato l'utente
-        public void naveSelezionata_Click(object sender, MouseEventArgs e)
+        private void naveSelezionata_Click(object sender, MouseEventArgs e)
         {
-            PictureBox picSelezionata = sender as PictureBox;
+            picSelezionata = sender as PictureBox;
+            picSelezionata.BackColor = Color.White;
             // Serie di if-else per capire quale nave ha selezionato il giocatore
             if (sender.Equals(this.formPartita.Portaerei_Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[0];
-                picSelezionata.BackColor = Color.LightGray;
+                
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
             }
             else if (sender.Equals(this.formPartita.Incrociatore_1Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[1];
-                picSelezionata.BackColor = Color.LightGray;
+                
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
             }
             else if (sender.Equals(this.formPartita.Incrociatore_2Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[2];
-                picSelezionata.BackColor = Color.LightGray;
+                
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
             }
             else if (sender.Equals(this.formPartita.Torpediniere_1Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[3];
-                picSelezionata.BackColor = Color.LightGray;
+                
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
             }
             else if (sender.Equals(this.formPartita.Torpediniere_2Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[4];
-                picSelezionata.BackColor = Color.LightGray;
+                
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
             }
             else if (sender.Equals(this.formPartita.Torpediniere_3Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[5];
-                picSelezionata.BackColor = Color.LightGray;
+                
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
             }
             else if (sender.Equals(this.formPartita.Sottomarino_1Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[6];
-                picSelezionata.BackColor = Color.LightGray;
+                
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
             }
             else if (sender.Equals(this.formPartita.Sottomarino_2Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[7];
-                picSelezionata.BackColor = Color.LightGray;
+                
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
             }
             else if (sender.Equals(this.formPartita.Sottomarino_3Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[8];
-                picSelezionata.BackColor = Color.LightGray;
+                
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
             }
             else if (sender.Equals(this.formPartita.Sottomarino_4Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[9];
-                picSelezionata.BackColor = Color.LightGray;
+                
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
-            }            
+            }
+            
         }
 
         // Metodo per mostrare il form della partita
