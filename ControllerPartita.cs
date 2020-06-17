@@ -287,9 +287,8 @@ namespace BattagliaNavale
             Casella bersaglio = new Casella();
 
 
-            /* racchiudo il generatore di cordinate casuali in un ciclo do-while in modo da essere
-             * sicuro che le cordinate generate possano essere accettate.
-             */
+            // Racchiudo il generatore di cordinate casuali in un ciclo do-while in modo da essere
+            // sicuro che le cordinate generate possano essere accettate.            
             do
             {
                 // Genero un seme sempre diverso
@@ -368,8 +367,7 @@ namespace BattagliaNavale
                     colpitaeAffondata = giocatore_2.ControllaNaveColpita(casellaSelezionata);
                     if (colpitaeAffondata)
                     {
-                        formPartita.ConsoleLabel.Text = "Colpito e affondato!";
-                        
+                        formPartita.ConsoleLabel.Text = "Colpito e affondato!";                        
                         
                         if (giocatore_2.GameOver())
                         {
@@ -378,7 +376,6 @@ namespace BattagliaNavale
                     }
                     else
                     {
-
                         formPartita.ConsoleLabel.Text = "Colpito";
                     }
                 }

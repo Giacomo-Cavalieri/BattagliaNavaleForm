@@ -12,3 +12,17 @@ D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.exe
 D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.pdb
 D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.MenuPrincipaleForm.resources
 D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.PartitaForm.resources
+C:\Users\jaack\Desktop\BattagliaNavaleForm\bin\Debug\BattagliaNavale.exe.config
+C:\Users\jaack\Desktop\BattagliaNavaleForm\bin\Debug\BattagliaNavale.exe
+C:\Users\jaack\Desktop\BattagliaNavaleForm\bin\Debug\BattagliaNavale.pdb
+C:\Users\jaack\Desktop\BattagliaNavaleForm\bin\Debug\ModelloBattagliaNavale.dll
+C:\Users\jaack\Desktop\BattagliaNavaleForm\bin\Debug\ModelloBattagliaNavale.pdb
+C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.csprojAssemblyReference.cache
+C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.MenuPrincipaleForm.resources
+C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.PartitaForm.resources
+C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.Properties.Resources.resources
+C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.csproj.GenerateResource.cache
+C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.csproj.CoreCompileInputs.cache
+C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.csproj.CopyComplete
+C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.exe
+C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.pdb
