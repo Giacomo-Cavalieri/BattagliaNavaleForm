@@ -10,7 +10,7 @@ namespace ModelloBattagliaNavale
 {
     public class Giocatore
     {
-
+        public int Punteggio { get; set; }
         // Nome del giocatore
         public string Nome { get; set; }
 
@@ -42,6 +42,7 @@ namespace ModelloBattagliaNavale
             };
 
             this.MioCampo = new CampoDaGioco(10);
+            this.Punteggio = 0;
                         
         }
        
@@ -110,30 +111,30 @@ namespace ModelloBattagliaNavale
         // Metodo per controllare quale nave sia stata colpita
         public bool ControllaNaveColpita(Casella casellaBersagliata)
         {
-            bool naveAffondata = false;
+            bool naveAffondata = true;
             // Ciclo foreach per trovare quale nave del giocatore è stata colpita            
-            foreach (Nave naveAttuale in this.ListaNavi.ToList())
+            foreach (Nave naveAttuale in this.ListaNavi)
             {
-                // ciclo for per controllare se la naveAttuale sia la nave bersagliata
-                for (int i = 0; i < naveAttuale.Lunghezza; i++)
-                {
-                    // faccio un controllo tramite la casellaBersagliata e la casella attuale della nave
-                    if (naveAttuale.Posizione[i].Riga == casellaBersagliata.Riga &&
-                        naveAttuale.Posizione[i].Colonna == casellaBersagliata.Colonna)
-                    {
-                        // nave trovata! invoco il metodo per controllare lo stato della nave
-                        naveAffondata = naveAttuale.ControlloDanni(casellaBersagliata);
-                    }
-                }
-                // se naveAffondata è uguale a true setto la variabile booleana Affondata della nave a true
                 if (naveAffondata)
                 {
-                    naveAttuale.Affondata = true;
-                    ListaNavi.Remove(naveAttuale);
-                    Console.WriteLine("Stato della nave " + naveAttuale.Affondata);
-
-                }
-                
+                    // ciclo for per controllare se la naveAttuale sia la nave bersagliata
+                    for (int i = 0; i < naveAttuale.Lunghezza; i++)
+                    {
+                        // faccio un controllo tramite la casellaBersagliata e la casella attuale della nave
+                        if (naveAttuale.Posizione[i].Riga == casellaBersagliata.Riga &&
+                            naveAttuale.Posizione[i].Colonna == casellaBersagliata.Colonna)
+                        {
+                            // nave trovata! invoco il metodo per controllare lo stato della nave
+                            naveAffondata = naveAttuale.ControlloDanni(casellaBersagliata);
+                            // se naveAffondata è uguale a true setto la variabile booleana Affondata della nave a true
+                            if (naveAffondata)
+                            {
+                                naveAttuale.Affondata = true;
+                                Console.WriteLine(naveAttuale.Nome + ": Nave affondata!");
+                            }
+                        }
+                    }
+                }                
             }
             return naveAffondata;
         }

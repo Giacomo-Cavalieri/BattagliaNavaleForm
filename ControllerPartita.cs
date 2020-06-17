@@ -31,9 +31,6 @@ namespace BattagliaNavale
 
         private PictureBox picSelezionata;
 
-
-
-
         // Costruttore della classe
         private ControllerPartita()
         {
@@ -249,7 +246,7 @@ namespace BattagliaNavale
             int numeroTurno = 1;
             // Rendo invisibile il tasto navi posizionate btn
             formPartita.NaviPosizionateBtn.Visible = false;
-            bool gameover = false;
+            
             
             // Ciclo for per disabilitare il metodo dei bottoni del panel del giocatore 1
             // e abilitare il metodo per il click dei bottoni nel campo dell'IA
@@ -262,14 +259,6 @@ namespace BattagliaNavale
                 }
             }
             formPartita.ConsoleLabel.Text = "TURNO " + numeroTurno;
-            if(gameover == false)
-            {
-                turno();
-            }               
-        }    
-
-        private void turno()
-        {          
             // Rendo cliccabili i bottoni del campo dell'IA
             for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
             {
@@ -278,7 +267,20 @@ namespace BattagliaNavale
                     campoG2Btn[i, j].MouseClick += bottoneCampoAvversario_Click;
                 }
             }
-        }
+
+            // Disattivo il click sulle picturebox delle navi
+            this.formPartita.Portaerei_Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.Incrociatore_1Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.Incrociatore_2Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.Torpediniere_1Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.Torpediniere_2Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.Torpediniere_3Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.Sottomarino_1Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.Sottomarino_2Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.Sottomarino_3Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
+            this.formPartita.Sottomarino_4Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
+        }    
+
 
         private void turnoIA()
         {
@@ -339,12 +341,6 @@ namespace BattagliaNavale
             bool naveColpita;
             bool colpitaeAffondata;
 
-            foreach (Nave nave in giocatore_2.ListaNavi)
-            {                
-                
-                Console.WriteLine(nave.Nome);
-                
-            }
 
             Casella casellaSelezionata = new Casella(posizione.X, posizione.Y);
             formPartita.ConsoleLabel.Text = "Vuoi sparare nella casella con cordinate (" + casellaSelezionata.Riga + ", " + casellaSelezionata.Colonna + ")";
@@ -367,11 +363,24 @@ namespace BattagliaNavale
                     colpitaeAffondata = giocatore_2.ControllaNaveColpita(casellaSelezionata);
                     if (colpitaeAffondata)
                     {
-                        formPartita.ConsoleLabel.Text = "Colpito e affondato!";                        
-                        
-                        if (giocatore_2.GameOver())
+                        formPartita.ConsoleLabel.Text = "Colpito e affondato!";
+
+                        giocatore_1.Punteggio++;
+                        Console.WriteLine("Punteggio attuale di " + giocatore_1.Nome + ": " + giocatore_1.Punteggio);
+
+                        // Fine partita
+                        if (giocatore_1.Punteggio == 10)
                         {
-                            MessageBox.Show("gameover per il giocatore 2");
+                            for (int i = 0; i < 10; i++)
+                            {
+                                for (int j = 0; j < 10; j++)
+                                {
+                                    campoG2Btn[i, j].MouseClick -= bottoneCampoAvversario_Click;
+                                }
+                            }
+                            formPartita.NaviPosizionateBtn.Text = "TORNA AL MENU PRINCIPALE";
+                            formPartita.NaviPosizionateBtn.Visible = true;
+                            formPartita.NaviPosizionateBtn.MouseClick += tornoAlMenuPrincipale_Click;
                         }
                     }
                     else
@@ -384,10 +393,20 @@ namespace BattagliaNavale
                     campoG2Btn[casellaSelezionata.Riga, casellaSelezionata.Colonna].BackColor = Color.Blue;
                     formPartita.ConsoleLabel.Text = "Mancato";
                 }
+
+                if (giocatore_1.Punteggio < 10)
+                {
+                    turnoIA();
+                }
             }
             
-            turnoIA();
+            
 
+        }
+
+        private void tornoAlMenuPrincipale_Click(object sender, MouseEventArgs e)
+        {
+            formPartita.Close();
         }
 
         // Metodo per gestire quale nave ha selezionato l'utente
@@ -455,8 +474,7 @@ namespace BattagliaNavale
                 naveSelezionata = giocatore_1.ListaNavi[9];
                 
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
-            }
-            
+            }            
         }
 
         // Metodo per mostrare il form della partita

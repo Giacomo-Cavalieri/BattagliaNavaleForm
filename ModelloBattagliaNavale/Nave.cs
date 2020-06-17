@@ -28,6 +28,7 @@ namespace ModelloBattagliaNavale
             Affondata = false;
         }
 
+        // Metodo ToString di debug
         public override string ToString()
         {
             return "Nome della nave : " + this.Nome +
@@ -51,14 +52,12 @@ namespace ModelloBattagliaNavale
                         // Controllo che i valori siano validi e non eccedano la dimensione della matrice
                         if ((cordinata.Riga) > 9 ||
                             (cordinata.Colonna + i) > 9)
-                        {
-                            Console.WriteLine("Valore non valido sei oltre la matrice");
+                        {                            
                             casellaLibera = false;
                         }
                         // Faccio un ulteriore controllo che la casella non risulti occupata
                         else if (campo.Casella[cordinata.Riga, cordinata.Colonna + i].StatoCasella != Stato.libera)   
-                        {
-                            Console.WriteLine("Attenzione, casella con cordinata (" + cordinata.Riga + "," + cordinata.Colonna + ") risulta occupata. riprovare l'inserimento!!!");
+                        {                            
                             casellaLibera = false;
                         }                        
                     }                    
@@ -88,14 +87,12 @@ namespace ModelloBattagliaNavale
                         // Controllo che i valori siano validi e non eccedano la dimensione della matrice
                         if ((cordinata.Riga + i) > 9 ||
                             (cordinata.Colonna) > 9)
-                        {
-                            Console.WriteLine("Sei andato oltre la matrice. Riprovare l'inserimento");
+                        {                            
                             casellaLibera = false;
                         }
                         // Faccio un ulteriore controllo che la casella non risulti occupata
                         else if (campo.Casella[cordinata.Riga + i, cordinata.Colonna].StatoCasella != Stato.libera)
-                        {
-                            Console.WriteLine("Attenzione, casella con cordinata (" + cordinata.Riga + "," + cordinata.Colonna + ") risulta occupata. riprovare l'inserimento!!!");
+                        {                            
                             casellaLibera = false;
                         }
                         
@@ -117,8 +114,6 @@ namespace ModelloBattagliaNavale
                 }
             }
         }
-
-
 
         // Metodo per controllare se la nave sia stata affondata
         public bool ControlloDanni(Casella parteNaveColpita)
