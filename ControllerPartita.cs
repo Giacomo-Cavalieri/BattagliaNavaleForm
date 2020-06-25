@@ -18,7 +18,7 @@ namespace BattagliaNavale
         private PartitaForm formPartita;
         private Giocatore giocatore_1;
         private Giocatore giocatore_2;
-        private static ControllerPartita istanza;
+        
 
         // Dichiaro una variabile bottone che sarà una matrice di dimensione 10
         private Button[,] campoG1Btn;
@@ -32,7 +32,7 @@ namespace BattagliaNavale
         private PictureBox picSelezionata;
 
         // Costruttore della classe
-        private ControllerPartita()
+        public ControllerPartita()
         {
             this.giocatore_1 = new Giocatore("Giacomo");
             this.giocatore_2 = new Giocatore("Pavel");
@@ -52,16 +52,7 @@ namespace BattagliaNavale
         }
 
         // Metodo per l'implementazione del Design Pattern Singleton
-        public static ControllerPartita getIstanza()
-        {
-            if (istanza == null )
-            {
-                istanza = new ControllerPartita();
-            }
-
-            return istanza;
-        }
-
+        
         private void PreparazionePartita()
         {
             // Messaggio di benvenuto            
@@ -256,18 +247,18 @@ namespace BattagliaNavale
                 for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
                 {
                     campoG1Btn[i,j].MouseDown -= bottoneCampoDaGioco_Click;
-                    campoG2Btn[i, j].MouseClick += bottoneCampoAvversario_Click;
+                    
                 }
             }
             formPartita.ConsoleLabel.Text = "TURNO " + numeroTurno;
             // Rendo cliccabili i bottoni del campo dell'IA
-            //for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
-            //{
-            //    for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
-            //    {
-            //        
-            //    }
-            //}
+            for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
+            {
+                for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
+                {
+                    campoG2Btn[i, j].MouseClick += bottoneCampoAvversario_Click;
+                }
+            }
 
             // Disattivo il click sulle picturebox delle navi
             this.formPartita.Portaerei_Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
@@ -364,14 +355,13 @@ namespace BattagliaNavale
                     colpitaeAffondata = giocatore_2.ControllaNaveColpita(casellaSelezionata);
                     if (colpitaeAffondata)
                     {
-                        formPartita.ConsoleLabel.Text = "Colpito e affondato!";
-
-                        giocatore_1.Punteggio++;
-                        Console.WriteLine("Punteggio attuale di " + giocatore_1.Nome + ": " + giocatore_1.Punteggio);
-
-                        // Fine partita
-                        if (giocatore_1.Punteggio == 10)
+                        formPartita.ConsoleLabel.Text = "Colpito e affondato!";                        
+                        // Se la nave è stata affondata controllo che il giocatore avversario abbia altre navi.
+                        // In caso contrario sarebbe gameover
+                        if (giocatore_2.GameOver())
                         {
+                            // Il giocatore 2 ha perso. Faccio in modo che non si possa più cliccare
+                            // sulla casella del campo avversario
                             for (int i = 0; i < 10; i++)
                             {
                                 for (int j = 0; j < 10; j++)
@@ -379,6 +369,9 @@ namespace BattagliaNavale
                                     campoG2Btn[i, j].MouseClick -= bottoneCampoAvversario_Click;
                                 }
                             }
+
+                            formPartita.ConsoleLabel.Text = "Complimenti " + giocatore_1.Nome + " hai vinto la partita!";
+                            
                             formPartita.NaviPosizionateBtn.Text = "TORNA AL MENU PRINCIPALE";
                             formPartita.NaviPosizionateBtn.Visible = true;
                             formPartita.NaviPosizionateBtn.MouseClick += tornoAlMenuPrincipale_Click;
@@ -386,88 +379,33 @@ namespace BattagliaNavale
                     }
                     else
                     {
+                        // La nave è stata solamente colpita
                         formPartita.ConsoleLabel.Text = "Colpito";
                     }
                 }
                 else
                 {
+                    // non è stato colpita nessuna nave avversaria. Devo colorare
+                    // la casella di blu
                     campoG2Btn[casellaSelezionata.Riga, casellaSelezionata.Colonna].BackColor = Color.Blue;
                     formPartita.ConsoleLabel.Text = "Mancato";
                 }
-
-                if (giocatore_1.Punteggio < 10)
-                {
-                    turnoIA();
-                }
             }
-            
-            
 
+            // Turno del giocatore 1 finito. Inizio turno giocatore 2
+            if (giocatore_2.GameOver() == false)
+            {
+                // Se il giocatore 2 non ha ancora perso, può eseguire il suo turno
+                //turnoIA();
+            }
         }
 
         // Metodo che chiude il form della partita per ritornare al menu principale
         private void tornoAlMenuPrincipale_Click(object sender, MouseEventArgs e)
         {
-            // Il metodo dovrà resettare il gioco in modo che se l'utente
-            // vorrà effettuare una nuova partita i parametri siano correttamente
-            // resettati
-            // Resetto i campi da gioco dei vari giocatori
-            for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
-            {
-                for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
-                {
-                    giocatore_1.MioCampo.Casella[i, j].StatoCasella = Stato.libera;
-                    giocatore_1.MioCampo.Casella[i, j].SimboloCasella = ' ';
-                    giocatore_2.MioCampo.Casella[i, j].StatoCasella = Stato.libera;
-                    giocatore_2.MioCampo.Casella[i, j].SimboloCasella = ' ';
-
-                }
-            }
-            // Resetto le navi del giocatore 1
-            foreach(Nave nave in giocatore_1.ListaNavi)
-            {
-                nave.Affondata = false;
-                nave.Inserita = false;
-                for (int i = 0; i < nave.Lunghezza; i++)
-                {
-                    nave.Posizione[i] = null;
-                }
-            }
-            // Resetto le navi del giocatore 2
-            foreach (Nave nave in giocatore_2.ListaNavi)
-            {
-                nave.Affondata = false;
-                nave.Inserita = false;
-                for (int i = 0; i < nave.Lunghezza; i++)
-                {
-                    nave.Posizione[i] = null;
-                }
-            }
-
-            // Resetto i campi da gioco del form
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    campoG1Btn[i, j].BackColor = Color.Transparent;
-                    campoG1Btn[i, j].Text = "";
-                    campoG1Btn[i, j].MouseDown += bottoneCampoDaGioco_Click;
-
-                    campoG2Btn[i, j].BackColor = Color.Transparent;
-                    campoG2Btn[i, j].Text = "";
-                    campoG2Btn[i, j].MouseClick -= bottoneCampoAvversario_Click;
-                }
-            }
+            // Il metodo dovrà tornare al menu principale
 
             
-
-            formPartita.NaviPosizionateBtn.Text = "INIZIAMO";
-            formPartita.NaviPosizionateBtn.MouseClick -= tornoAlMenuPrincipale_Click;
-
-            InizializzaEventi();
-            PreparazionePartita();
-
-
             // chiudo il form
             formPartita.Close();
         }

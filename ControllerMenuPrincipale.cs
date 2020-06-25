@@ -10,18 +10,30 @@ namespace BattagliaNavale
 {
     class ControllerMenuPrincipale
     {
-        private MenuPrincipaleForm menuPrincipale;  
+        private MenuPrincipaleForm menuPrincipale;
+        private static ControllerMenuPrincipale istanza;
         
 
         // Costruttore
-        public ControllerMenuPrincipale()
+        private ControllerMenuPrincipale()
         {
             this.menuPrincipale = new MenuPrincipaleForm();
             this.menuPrincipale.FormBorderStyle = FormBorderStyle.FixedDialog;
             InizializzaEventi();
         }
 
-        
+        // Metodo per l'implementazione del Design Pattern Singleton
+        public static ControllerMenuPrincipale getIstanza()
+        {
+            if (istanza == null)
+            {
+                istanza = new ControllerMenuPrincipale();
+            }
+
+            return istanza;
+        }
+
+
         // Inizializzo gli eventi del form
         public void InizializzaEventi()
         {
@@ -34,7 +46,7 @@ namespace BattagliaNavale
         private void InziaPartita_Click(object sender, MouseEventArgs e)
         {
             // Dichiaro il controllerPartita utilizzando il metodo getIstanza()
-            ControllerPartita controllerPartita = ControllerPartita.getIstanza();
+            ControllerPartita controllerPartita = new ControllerPartita();
             controllerPartita.MostraPartitaForm();
         }
 

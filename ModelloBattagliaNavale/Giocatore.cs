@@ -42,7 +42,7 @@ namespace ModelloBattagliaNavale
             };
 
             this.MioCampo = new CampoDaGioco(10);
-            this.Punteggio = 0;
+            
                         
         }
        
@@ -113,7 +113,7 @@ namespace ModelloBattagliaNavale
         {
             bool naveAffondata = true;
             // Ciclo foreach per trovare quale nave del giocatore è stata colpita            
-            foreach (Nave naveAttuale in this.ListaNavi)
+            foreach (Nave naveAttuale in this.ListaNavi.ToList())
             {
                 if (naveAffondata)
                 {
@@ -130,6 +130,7 @@ namespace ModelloBattagliaNavale
                             if (naveAffondata)
                             {
                                 naveAttuale.Affondata = true;
+                                ListaNavi.Remove(naveAttuale);
                                 Console.WriteLine(naveAttuale.Nome + ": Nave affondata!");
                             }
                         }

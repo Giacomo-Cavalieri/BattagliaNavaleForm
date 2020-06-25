@@ -17,8 +17,8 @@ namespace BattagliaNavale
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // Dichiaro il controller del menù Principale
-            ControllerMenuPrincipale menuPrincipale = new ControllerMenuPrincipale();
+            // Dichiaro il controller del menù Principale tramite il design pattern Singleton
+            ControllerMenuPrincipale menuPrincipale = ControllerMenuPrincipale.getIstanza();
             // Mostro il form del menuPrincipale
             menuPrincipale.MostraMenuPrincipale();
         }
