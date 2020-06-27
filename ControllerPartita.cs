@@ -403,11 +403,13 @@ namespace BattagliaNavale
         // Metodo che chiude il form della partita per ritornare al menu principale
         private void tornoAlMenuPrincipale_Click(object sender, MouseEventArgs e)
         {
-            // Il metodo dovrà tornare al menu principale
-
-            
+            // Il metodo dovrà chiudere il form partita e dovrà al menu principale
+            ControllerMenuPrincipale menuprincipale = ControllerMenuPrincipale.getIstanza();
+                        
             // chiudo il form
             formPartita.Close();
+            // mostro il menu principale
+            menuprincipale.MostraMenuPrincipale();
         }
 
         // Metodo per gestire quale nave ha selezionato l'utente

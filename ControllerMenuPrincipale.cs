@@ -48,6 +48,9 @@ namespace BattagliaNavale
             // Dichiaro il controllerPartita utilizzando il metodo getIstanza()
             ControllerPartita controllerPartita = new ControllerPartita();
             controllerPartita.MostraPartitaForm();
+            // Nascondo il menu principale
+            menuPrincipale.Visible = false;
+            menuPrincipale.Close();   
         }
 
         // Metodo che gestisce il click su bottone EsciDalGioco
