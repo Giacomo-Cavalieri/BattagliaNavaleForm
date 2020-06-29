@@ -409,7 +409,7 @@ namespace BattagliaNavale
             // chiudo il form
             formPartita.Close();
             // mostro il menu principale
-            menuprincipale.MostraMenuPrincipale();
+            menuprincipale.MenuPrincipale.Show();
         }
 
         // Metodo per gestire quale nave ha selezionato l'utente

@@ -10,15 +10,15 @@ namespace BattagliaNavale
 {
     class ControllerMenuPrincipale
     {
-        private MenuPrincipaleForm menuPrincipale;
+        public MenuPrincipaleForm MenuPrincipale { get; set; }
         private static ControllerMenuPrincipale istanza;
         
 
         // Costruttore
         private ControllerMenuPrincipale()
         {
-            this.menuPrincipale = new MenuPrincipaleForm();
-            this.menuPrincipale.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MenuPrincipale = new MenuPrincipaleForm();
+            this.MenuPrincipale.FormBorderStyle = FormBorderStyle.FixedDialog;
             InizializzaEventi();
         }
 
@@ -37,20 +37,19 @@ namespace BattagliaNavale
         // Inizializzo gli eventi del form
         public void InizializzaEventi()
         {
-            this.menuPrincipale.IniziaPartitaBtn.MouseClick += new MouseEventHandler(this.InziaPartita_Click);
-            this.menuPrincipale.EsciDalGiocoBtn.MouseClick += new MouseEventHandler(this.EsciDalGioco_Click);            
+            this.MenuPrincipale.IniziaPartitaBtn.MouseClick += new MouseEventHandler(this.InziaPartita_Click);
+            this.MenuPrincipale.EsciDalGiocoBtn.MouseClick += new MouseEventHandler(this.EsciDalGioco_Click);            
         }
         
 
         // Metodo che gestisce il click sul bottone IniziaPartita
         private void InziaPartita_Click(object sender, MouseEventArgs e)
         {
+            // Nascondo il menu principale
+            MenuPrincipale.Visible = false;
             // Dichiaro il controllerPartita utilizzando il metodo getIstanza()
             ControllerPartita controllerPartita = new ControllerPartita();
-            controllerPartita.MostraPartitaForm();
-            // Nascondo il menu principale
-            menuPrincipale.Visible = false;
-            menuPrincipale.Close();   
+            controllerPartita.MostraPartitaForm();               
         }
 
         // Metodo che gestisce il click su bottone EsciDalGioco
@@ -62,8 +61,8 @@ namespace BattagliaNavale
         public void MostraMenuPrincipale()
         {
             // Carico l'immagine di sfondo del menu principale
-            this.menuPrincipale.SfondoMenuPrincipale.Image = (Image)Properties.Resources.sfondoMenuPrincipale;
-            this.menuPrincipale.ShowDialog();
+            this.MenuPrincipale.SfondoMenuPrincipale.Image = (Image)Properties.Resources.sfondoMenuPrincipale;
+            this.MenuPrincipale.ShowDialog();
         }
     }    
 }
