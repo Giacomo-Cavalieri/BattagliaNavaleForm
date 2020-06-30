@@ -1,13 +1,6 @@
 ﻿using ModelloBattagliaNavale;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BattagliaNavale
@@ -174,7 +167,7 @@ namespace BattagliaNavale
 
         // Metodo che controlla se tutte le navi del giocatore sono state inserite.
         // In caso positivo, la partita può iniziare
-        public void controlloInizioPartita()
+        private void controlloInizioPartita()
         {
             bool naviPosizionate = true;
             // Ciclo foreach per controllare lo stato di tutte le navi
@@ -189,8 +182,7 @@ namespace BattagliaNavale
                 if (naviPosizionate)
                 {
                     // il bottone può essere stampato
-                    this.formPartita.NaviPosizionateBtn.Visible = true;
-                    this.formPartita.NaviPosizionateBtn.MouseClick += new MouseEventHandler(this.naviPosizionate_Click);
+                    this.formPartita.NaviPosizionateBtn.Visible = true;                    
                 }                
                 else
                 {
@@ -202,7 +194,7 @@ namespace BattagliaNavale
         }
 
         // metodo per inizializzare i vari click delle varie navi
-        public void InizializzaEventi()
+        private void InizializzaEventi()
         {
             this.formPartita.Portaerei_Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
             this.formPartita.Incrociatore_1Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
@@ -214,7 +206,7 @@ namespace BattagliaNavale
             this.formPartita.Sottomarino_2Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
             this.formPartita.Sottomarino_3Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
             this.formPartita.Sottomarino_4Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
-            
+            this.formPartita.NaviPosizionateBtn.MouseClick += new MouseEventHandler(this.naviPosizionate_Click);
         }
 
         // Metodo che darà il via alla partita
@@ -246,18 +238,19 @@ namespace BattagliaNavale
             {
                 for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
                 {
-                    campoG1Btn[i,j].MouseDown -= bottoneCampoDaGioco_Click;
-                    
+                    campoG1Btn[i,j].MouseDown -= bottoneCampoDaGioco_Click;                    
                 }
             }
             formPartita.ConsoleLabel.Text = "TURNO " + numeroTurno;
             // Rendo cliccabili i bottoni del campo dell'IA
-            for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
+            for (int i = 0; i < 10; i++)
             {
-                for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     campoG2Btn[i, j].MouseClick += bottoneCampoAvversario_Click;
+                    Console.WriteLine("casella in posizione [" + i + ", " + j + "] cliccabile");
                 }
+                
             }
 
             // Disattivo il click sulle picturebox delle navi
@@ -310,7 +303,21 @@ namespace BattagliaNavale
                     formPartita.ConsoleLabel.Text = "Colpito e affondato!";
                     if (giocatore_1.GameOver())
                     {
-                        MessageBox.Show("gameover per il giocatore 1");
+                        // Il giocatore 1 ha perso. Faccio in modo che non si possa più cliccare
+                        // sulla casella del campo avversario
+                        for (int i = 0; i < 10; i++)
+                        {
+                            for (int j = 0; j < 10; j++)
+                            {
+                                campoG2Btn[i, j].MouseClick -= bottoneCampoAvversario_Click;
+                            }
+                        }
+
+                        formPartita.ConsoleLabel.Text = "Complimenti " + giocatore_2.Nome + " hai vinto la partita!";
+
+                        formPartita.NaviPosizionateBtn.Text = "TORNA AL MENU PRINCIPALE";
+                        formPartita.NaviPosizionateBtn.Visible = true;
+                        formPartita.NaviPosizionateBtn.MouseClick += tornoAlMenuPrincipale_Click;
                     }
                 }
                 else
@@ -390,14 +397,13 @@ namespace BattagliaNavale
                     campoG2Btn[casellaSelezionata.Riga, casellaSelezionata.Colonna].BackColor = Color.Blue;
                     formPartita.ConsoleLabel.Text = "Mancato";
                 }
-            }
-
-            // Turno del giocatore 1 finito. Inizio turno giocatore 2
-            if (giocatore_2.GameOver() == false)
-            {
-                // Se il giocatore 2 non ha ancora perso, può eseguire il suo turno
-                //turnoIA();
-            }
+                // Turno del giocatore 1 finito. Inizio turno giocatore 2
+                if (giocatore_2.GameOver() == false)
+                {
+                    // Se il giocatore 2 non ha ancora perso, può eseguire il suo turno
+                    turnoIA();
+                }
+            }            
         }
 
         // Metodo che chiude il form della partita per ritornare al menu principale
