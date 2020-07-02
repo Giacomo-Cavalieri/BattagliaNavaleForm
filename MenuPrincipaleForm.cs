@@ -4,8 +4,6 @@ namespace BattagliaNavale
 {
     public partial class MenuPrincipaleForm : Form
     {
-
-
         public MenuPrincipaleForm()
         {
             InitializeComponent();
@@ -30,6 +28,34 @@ namespace BattagliaNavale
         {
             get { return this.sfondoMenuPic; }
             set { this.sfondoMenuPic = value; }
+        }
+
+        // Property per il titolo del gioco
+        public Label TitoloLabel
+        {
+            get { return this.titoloLabel; }
+            set { this.titoloLabel = value; }
+        }
+
+        // Property per l'autore 1 del gioco
+        public Label Autore1
+        {
+            get { return this.autore1; }
+            set { this.autore1 = value; }
+        }
+
+        // Property per l'autore 2 del gioco        
+        public Label Autore2
+        {
+            get { return this.autore2; }
+            set { this.autore2 = value; }
+        }
+
+        // Property per il docente del progetto        
+        public Label Docente
+        {
+            get { return this.docente; }
+            set { this.docente = value; }
         }
 
     }

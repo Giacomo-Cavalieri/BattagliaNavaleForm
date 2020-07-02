@@ -6,7 +6,7 @@ namespace ModelloBattagliaNavale
 {
     public class Giocatore
     {
-        public int Punteggio { get; set; }
+        
         // Nome del giocatore
         public string Nome { get; set; }
 

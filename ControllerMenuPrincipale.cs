@@ -32,8 +32,15 @@ namespace BattagliaNavale
         // Inizializzo gli eventi del form
         public void InizializzaEventi()
         {
+            // Inizializzo i click dei bottoni
             this.MenuPrincipale.IniziaPartitaBtn.MouseClick += new MouseEventHandler(this.InziaPartita_Click);
-            this.MenuPrincipale.EsciDalGiocoBtn.MouseClick += new MouseEventHandler(this.EsciDalGioco_Click);            
+            this.MenuPrincipale.EsciDalGiocoBtn.MouseClick += new MouseEventHandler(this.EsciDalGioco_Click);
+            // Stampo le informazioni riguardanti il titolo del gioco,
+            // gli autori e il docente di riferimento
+            MenuPrincipale.TitoloLabel.Text = "BATTAGLIA NAVALE";
+            MenuPrincipale.Autore1.Text = "Pavel Bucsanu [Mat. 271426]";
+            MenuPrincipale.Autore2.Text = "Giacomo Cavalieri [Mat. 272094]";
+            MenuPrincipale.Docente.Text = "Docente: Saverio Delpriori";
         }
         
 
@@ -55,9 +62,23 @@ namespace BattagliaNavale
 
         public void MostraMenuPrincipale()
         {
+            // Label titolo
+            this.MenuPrincipale.TitoloLabel.Parent = this.MenuPrincipale.SfondoMenuPrincipale;
+            this.MenuPrincipale.TitoloLabel.BackColor = Color.Transparent;
+            // Label autore1
+            this.MenuPrincipale.Autore1.Parent = this.MenuPrincipale.SfondoMenuPrincipale;
+            this.MenuPrincipale.Autore1.BackColor = Color.Transparent;
+            // Label autore2
+            this.MenuPrincipale.Autore2.Parent = this.MenuPrincipale.SfondoMenuPrincipale;
+            this.MenuPrincipale.Autore2.BackColor = Color.Transparent;
+            // Label docente
+            this.MenuPrincipale.Docente.Parent = this.MenuPrincipale.SfondoMenuPrincipale;
+            this.MenuPrincipale.Docente.BackColor = Color.Transparent;
             // Carico l'immagine di sfondo del menu principale
             this.MenuPrincipale.SfondoMenuPrincipale.Image = (Image)Properties.Resources.sfondoMenuPrincipale;
-            this.MenuPrincipale.ShowDialog();
+
+
+            this.MenuPrincipale.ShowDialog();            
         }
     }    
 }

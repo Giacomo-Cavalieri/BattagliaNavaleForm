@@ -1,6 +1,7 @@
 ﻿using ModelloBattagliaNavale;
 using System;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace BattagliaNavale
@@ -10,19 +11,23 @@ namespace BattagliaNavale
         // Attributi necessari al controller
         private PartitaForm formPartita;
         private Giocatore giocatore_1;
-        private Giocatore giocatore_2;
-        
+        private Giocatore giocatore_2;        
 
         // Dichiaro una variabile bottone che sarà una matrice di dimensione 10
+        // per il giocatore 1 e per il giocatore 2
         private Button[,] campoG1Btn;
         private Button[,] campoG2Btn;
 
-
+        // attributo necessario per sapere quale nave è stata selezionata dall'utente
         private Nave naveSelezionata;
 
+        // variabile che gestisce la direzione dell'inserimento del giocatore
         private bool direzioneInserimento;
-
+        // variabile utile per sapere quale icona della nave è stata selezionata dall'utente       
         private PictureBox picSelezionata;
+
+        // variabile timer per leggere i cambiamento nella consoleLabel del form
+        System.Windows.Forms.Timer timer; 
 
         // Costruttore della classe
         public ControllerPartita()
@@ -44,8 +49,6 @@ namespace BattagliaNavale
             PreparazionePartita();
         }
 
-        // Metodo per l'implementazione del Design Pattern Singleton
-        
         private void PreparazionePartita()
         {
             // Messaggio di benvenuto            
@@ -102,17 +105,13 @@ namespace BattagliaNavale
         
 
         private void bottoneCampoDaGioco_Click(object sender, MouseEventArgs e)
-        {
-            
+        {            
             // Ottengo le cordinate del bottone cliccato
             Button bottoneCliccato = (Button) sender;
             Point posizione = (Point)bottoneCliccato.Tag;
             
 
             Casella casellaSelezionata = new Casella(posizione.X, posizione.Y);
-
-            formPartita.ConsoleLabel.Text = "Hai selezionato le cordinate (" + casellaSelezionata.Riga + ", " + casellaSelezionata.Colonna + ")" + direzioneInserimento;
-
             
             if(naveSelezionata == null)
             {
@@ -124,10 +123,10 @@ namespace BattagliaNavale
                 {
                     case MouseButtons.Right:
                         // Se premo il tasto destro del mouse devo modificare la direzione dell'inserimento da orizzontale
-                        // a verticale o viceversa                        
-
+                        // a verticale o viceversa
                         direzioneInserimento = !direzioneInserimento;
-                        formPartita.ConsoleLabel.Text = "valore di direzioneInserimento:" + direzioneInserimento;
+                        formPartita.ConsoleLabel.Text = "Hai selezionato la nave " + naveSelezionata.Nome;
+                        formPartita.ConsoleLabel.Text += " e la vuoi inserire in:" + ((direzioneInserimento)? "orizzontale" : "verticale");
 
                         break;
                     case MouseButtons.Left:
@@ -226,33 +225,9 @@ namespace BattagliaNavale
         }
 
         private void Partita()
-        {
-            int numeroTurno = 1;
+        {            
             // Rendo invisibile il tasto navi posizionate btn
             formPartita.NaviPosizionateBtn.Visible = false;
-            
-            
-            // Ciclo for per disabilitare il metodo dei bottoni del panel del giocatore 1
-            
-            for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
-            {
-                for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
-                {
-                    campoG1Btn[i,j].MouseDown -= bottoneCampoDaGioco_Click;                    
-                }
-            }
-            formPartita.ConsoleLabel.Text = "TURNO " + numeroTurno;
-            // Rendo cliccabili i bottoni del campo dell'IA
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    campoG2Btn[i, j].MouseClick += bottoneCampoAvversario_Click;
-                    Console.WriteLine("casella in posizione [" + i + ", " + j + "] cliccabile");
-                }
-                
-            }
-
             // Disattivo il click sulle picturebox delle navi
             this.formPartita.Portaerei_Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
             this.formPartita.Incrociatore_1Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
@@ -264,91 +239,34 @@ namespace BattagliaNavale
             this.formPartita.Sottomarino_2Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
             this.formPartita.Sottomarino_3Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
             this.formPartita.Sottomarino_4Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
-        }    
-
-
-        private void turnoIA()
-        {
-            bool naveColpita;
-            bool colpitaeAffondata;
-            Casella bersaglio = new Casella();
-
-
-            // Racchiudo il generatore di cordinate casuali in un ciclo do-while in modo da essere
-            // sicuro che le cordinate generate possano essere accettate.            
-            do
+            // Ciclo for per disabilitare il metodo dei bottoni del panel del giocatore 1
+            // e abilitare i bottoni del campo avversario
+            for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
             {
-                // Genero un seme sempre diverso
-                Random rand = new Random((int)DateTime.Now.Millisecond);
-                // Genero 2: uno per la riga, uno per la colonna
-                bersaglio.Riga = rand.Next(0, 10);
-                bersaglio.Colonna = rand.Next(0, 10);
-
-                formPartita.ConsoleLabel.Text = "Generata la cordinata (" + bersaglio.Riga + ", " + bersaglio.Colonna + ")";
-            } while (giocatore_1.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella == Stato.colpita ||
-                     giocatore_1.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella == Stato.mancata);
-
-            // Una volta generate le cordinate corrette faccio fuoco sul campo avversario
-            naveColpita = giocatore_2.FaccioFuoco(bersaglio, giocatore_1.MioCampo);
-
-
-            // Una volta sparato faccio un controllo nel caso la nave sia stata affondata
-            if (naveColpita)
-            {
-                // La nave è stata colpita, devo colorare la casella di rosso
-                campoG1Btn[bersaglio.Riga, bersaglio.Colonna].BackColor = Color.Red;
-                colpitaeAffondata = giocatore_1.ControllaNaveColpita(bersaglio);
-                if (colpitaeAffondata)
+                for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
                 {
-                    formPartita.ConsoleLabel.Text = "Colpito e affondato!";
-                    if (giocatore_1.GameOver())
-                    {
-                        // Il giocatore 1 ha perso. Faccio in modo che non si possa più cliccare
-                        // sulla casella del campo avversario
-                        for (int i = 0; i < 10; i++)
-                        {
-                            for (int j = 0; j < 10; j++)
-                            {
-                                campoG2Btn[i, j].MouseClick -= bottoneCampoAvversario_Click;
-                            }
-                        }
-
-                        formPartita.ConsoleLabel.Text = "Complimenti " + giocatore_2.Nome + " hai vinto la partita!";
-
-                        formPartita.NaviPosizionateBtn.Text = "TORNA AL MENU PRINCIPALE";
-                        formPartita.NaviPosizionateBtn.Visible = true;
-                        formPartita.NaviPosizionateBtn.MouseClick += tornoAlMenuPrincipale_Click;
-                    }
+                    campoG1Btn[i,j].MouseDown -= bottoneCampoDaGioco_Click;
+                    campoG2Btn[i, j].MouseClick += bottoneCampoAvversario_Click;
                 }
-                else
-                {
-
-                    formPartita.ConsoleLabel.Text = "Colpito";
-                }
-            }
-            else
-            {
-                campoG1Btn[bersaglio.Riga, bersaglio.Colonna].BackColor = Color.Blue;
-                formPartita.ConsoleLabel.Text = "Mancato";
-            }
-        }
+            }                        
+        }         
 
         private void bottoneCampoAvversario_Click(object sender, MouseEventArgs e)
         {
+            // dichiaro una variabile button e la rendo uguale a sender
             Button bottoneCliccato = (Button)sender;
+            // faccio una conversione in Point in modo da poter utilizzare il tag
+            // ovvero i valori x e y della casella cliccata
             Point posizione = (Point)bottoneCliccato.Tag;
-            bool naveColpita;
-            bool colpitaeAffondata;
-
-
             Casella casellaSelezionata = new Casella(posizione.X, posizione.Y);
-            formPartita.ConsoleLabel.Text = "Vuoi sparare nella casella con cordinate (" + casellaSelezionata.Riga + ", " + casellaSelezionata.Colonna + ")";
+            bool naveColpita;
+            bool colpitaeAffondata;                       
 
             // Faccio un controllo preventivo per vedere se la casella può essere colpita
             if (giocatore_2.MioCampo.Casella[casellaSelezionata.Riga, casellaSelezionata.Colonna].StatoCasella == Stato.colpita ||
                giocatore_2.MioCampo.Casella[casellaSelezionata.Riga, casellaSelezionata.Colonna].StatoCasella == Stato.mancata)
             {
-                formPartita.ConsoleLabel.Text = "La casella selezionata è già stata bersagliata in precedenza. Selezionare una casella differente";
+                formPartita.ConsoleLabel.Text = "Hai già fatto fuoco su questa casella. Selezionane un'altra";                
             }
             else
             {
@@ -362,7 +280,8 @@ namespace BattagliaNavale
                     colpitaeAffondata = giocatore_2.ControllaNaveColpita(casellaSelezionata);
                     if (colpitaeAffondata)
                     {
-                        formPartita.ConsoleLabel.Text = "Colpito e affondato!";                        
+                        formPartita.ConsoleLabel.Text = giocatore_1.Nome + ": hai ";
+                        formPartita.ConsoleLabel.Text += "colpito e affondato una nave nemica";                        
                         // Se la nave è stata affondata controllo che il giocatore avversario abbia altre navi.
                         // In caso contrario sarebbe gameover
                         if (giocatore_2.GameOver())
@@ -386,8 +305,9 @@ namespace BattagliaNavale
                     }
                     else
                     {
-                        // La nave è stata solamente colpita
-                        formPartita.ConsoleLabel.Text = "Colpito";
+                        // La nave è stata solamente colpita                        
+                        formPartita.ConsoleLabel.Text = giocatore_1.Nome + ": hai ";                        
+                        formPartita.ConsoleLabel.Text += "colpito una nave nemica";                       
                     }
                 }
                 else
@@ -395,15 +315,106 @@ namespace BattagliaNavale
                     // non è stato colpita nessuna nave avversaria. Devo colorare
                     // la casella di blu
                     campoG2Btn[casellaSelezionata.Riga, casellaSelezionata.Colonna].BackColor = Color.Blue;
-                    formPartita.ConsoleLabel.Text = "Mancato";
+                    formPartita.ConsoleLabel.Text = giocatore_1.Nome + ": hai ";
+                    formPartita.ConsoleLabel.Text += "mancato il nemico!";
                 }
                 // Turno del giocatore 1 finito. Inizio turno giocatore 2
                 if (giocatore_2.GameOver() == false)
                 {
+                    // Inizio turno giocatore 2. Devo disabilitare il click
+                    // sui bottoni del campo del giocatore 1
+                    for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
+                    {
+                        for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
+                        {                            
+                            campoG2Btn[i, j].MouseClick -= bottoneCampoAvversario_Click;
+                        }
+                    }
                     // Se il giocatore 2 non ha ancora perso, può eseguire il suo turno
-                    turnoIA();
+                    // verrà utilizzato un timer per far in modo che l'utente possa riuscire
+                    // a leggere il risultato del suo sparo nella consoleLabel
+                    timer = new System.Windows.Forms.Timer();
+                    timer.Tick += new EventHandler(turnoIA);
+                    timer.Interval = 1500; // setto un intervallo di 1 secondo
+                    timer.Start();                    
                 }
             }            
+        }
+
+        private void turnoIA(object source, EventArgs e)
+        {
+            bool naveColpita;
+            bool colpitaeAffondata;
+            Casella bersaglio = new Casella();
+
+            timer.Stop();            
+            
+            // Racchiudo il generatore di cordinate casuali in un ciclo do-while in modo da essere
+            // sicuro che le cordinate generate possano essere accettate.            
+            do
+            {
+                // Genero un seme sempre diverso
+                Random rand = new Random((int)DateTime.Now.Millisecond);
+                // Genero 2: uno per la riga, uno per la colonna
+                bersaglio.Riga = rand.Next(0, 10);
+                bersaglio.Colonna = rand.Next(0, 10);                
+            } while (giocatore_1.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella == Stato.colpita ||
+                     giocatore_1.MioCampo.Casella[bersaglio.Riga, bersaglio.Colonna].StatoCasella == Stato.mancata);
+
+            // Una volta generate le cordinate corrette faccio fuoco sul campo avversario
+            naveColpita = giocatore_2.FaccioFuoco(bersaglio, giocatore_1.MioCampo);
+
+            // Una volta sparato faccio un controllo nel caso la nave sia stata affondata
+            if (naveColpita)
+            {
+                // La nave è stata colpita, devo colorare la casella di rosso
+                campoG1Btn[bersaglio.Riga, bersaglio.Colonna].BackColor = Color.Red;
+                colpitaeAffondata = giocatore_1.ControllaNaveColpita(bersaglio);
+                if (colpitaeAffondata)
+                {
+                    formPartita.ConsoleLabel.Text = giocatore_2.Nome + ": hai ";
+                    formPartita.ConsoleLabel.Text += "colpito e affondato una nave nemica!";
+                    if (giocatore_1.GameOver())
+                    {
+                        // Il giocatore 1 ha perso. Faccio in modo che non si possa più cliccare
+                        // sulla casella del campo avversario
+                        for (int i = 0; i < 10; i++)
+                        {
+                            for (int j = 0; j < 10; j++)
+                            {
+                                campoG2Btn[i, j].MouseClick -= bottoneCampoAvversario_Click;
+                            }
+                        }
+
+                        formPartita.ConsoleLabel.Text = "Complimenti " + giocatore_2.Nome + " hai vinto la partita!";
+
+                        formPartita.NaviPosizionateBtn.Text = "TORNA AL MENU PRINCIPALE";
+                        formPartita.NaviPosizionateBtn.Visible = true;
+                        formPartita.NaviPosizionateBtn.MouseClick += tornoAlMenuPrincipale_Click;
+                    }
+                }
+                else
+                {
+                    formPartita.ConsoleLabel.Text = giocatore_2.Nome + ": hai ";
+                    formPartita.ConsoleLabel.Text += "colpito una nave nemica!";                    
+                }
+            }
+            else
+            {
+                campoG1Btn[bersaglio.Riga, bersaglio.Colonna].BackColor = Color.Blue;
+                formPartita.ConsoleLabel.Text = giocatore_2.Nome + ": hai ";
+                formPartita.ConsoleLabel.Text += "mancato il nemico!";
+            }
+
+            // Turno del giocatore 2 finito. Devo riabilitare il click
+            // sul campo avversario
+            for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
+            {
+                for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
+                {
+                    campoG2Btn[i, j].MouseClick += bottoneCampoAvversario_Click;
+                }
+            }
         }
 
         // Metodo che chiude il form della partita per ritornare al menu principale
