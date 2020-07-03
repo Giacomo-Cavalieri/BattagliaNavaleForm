@@ -82,7 +82,7 @@ namespace BattagliaNavale
             // 
             this.autore1.AutoSize = true;
             this.autore1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autore1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.autore1.ForeColor = System.Drawing.Color.Red;
             this.autore1.Location = new System.Drawing.Point(135, 64);
             this.autore1.Name = "autore1";
             this.autore1.Size = new System.Drawing.Size(119, 20);
@@ -93,7 +93,7 @@ namespace BattagliaNavale
             // 
             this.autore2.AutoSize = true;
             this.autore2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autore2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.autore2.ForeColor = System.Drawing.Color.Red;
             this.autore2.Location = new System.Drawing.Point(402, 64);
             this.autore2.Name = "autore2";
             this.autore2.Size = new System.Drawing.Size(119, 20);
@@ -104,7 +104,7 @@ namespace BattagliaNavale
             // 
             this.docente.AutoSize = true;
             this.docente.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.docente.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.docente.ForeColor = System.Drawing.Color.Red;
             this.docente.Location = new System.Drawing.Point(288, 95);
             this.docente.Name = "docente";
             this.docente.Size = new System.Drawing.Size(77, 20);

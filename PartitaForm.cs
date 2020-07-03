@@ -97,14 +97,7 @@ namespace BattagliaNavale
             get { return this.consoleLabel; }
             set { this.consoleLabel = value; }
         }
-
-        // Button per visualizzare le istruzioni
-        public Button IstruzioniBtn
-        {
-            get {return this.istruzioniBtn; }
-            set {this.istruzioniBtn = value; }
-        }
-
+        
         // Picturebox per lo sfondo del form
         public PictureBox SfondoPartita
         {

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace BattagliaNavale
 {
     class ControllerPartita
-    {
+    {        
         // Attributi necessari al controller
         private PartitaForm formPartita;
         private Giocatore giocatore_1;
@@ -52,7 +52,7 @@ namespace BattagliaNavale
         private void PreparazionePartita()
         {
             // Messaggio di benvenuto            
-            formPartita.ConsoleLabel.Text = "Per iniziare seleziona una nave e inseriscila in campo!!";
+            formPartita.ConsoleLabel.Text = "Seleziona una nave con il click sinistro del mouse e inseriscila nel tuo campo!";
 
             // Faccio inserire le navi all'IA
             giocatore_2.CollocaNaviIA();
@@ -108,8 +108,7 @@ namespace BattagliaNavale
         {            
             // Ottengo le cordinate del bottone cliccato
             Button bottoneCliccato = (Button) sender;
-            Point posizione = (Point)bottoneCliccato.Tag;
-            
+            Point posizione = (Point)bottoneCliccato.Tag;            
 
             Casella casellaSelezionata = new Casella(posizione.X, posizione.Y);
             
@@ -124,16 +123,15 @@ namespace BattagliaNavale
                     case MouseButtons.Right:
                         // Se premo il tasto destro del mouse devo modificare la direzione dell'inserimento da orizzontale
                         // a verticale o viceversa
-                        direzioneInserimento = !direzioneInserimento;
-                        formPartita.ConsoleLabel.Text = "Hai selezionato la nave " + naveSelezionata.Nome;
-                        formPartita.ConsoleLabel.Text += " e la vuoi inserire in:" + ((direzioneInserimento)? "orizzontale" : "verticale");
+                        direzioneInserimento = !direzioneInserimento;                        
+                        formPartita.ConsoleLabel.Text = "Direzione inserirento:" + ((direzioneInserimento)? "orizzontale" : "verticale");
 
                         break;
                     case MouseButtons.Left:
                         // Controllo che la nave non sia stata inserita in precedenza
                         if (naveSelezionata.Inserita)
                         {
-                            formPartita.ConsoleLabel.Text = "La nave selezionata è gia stata inserita. Provane un'altra idiota!!!";
+                            formPartita.ConsoleLabel.Text = "La nave selezionata è gia stata inserita.";
                         }
                         else
                         {
@@ -212,16 +210,7 @@ namespace BattagliaNavale
         // Metodo che darà il via alla partita
         private void naviPosizionate_Click(object sender, MouseEventArgs e)
         {
-            for (int i = 0; i < giocatore_2.MioCampo.Dimensione; i++)
-            {
-                for (int j = 0; j < giocatore_2.MioCampo.Dimensione; j++)
-                {
-                    if(giocatore_2.MioCampo.Casella[i, j].StatoCasella == Stato.occupata)
-                    {
-                        campoG2Btn[i, j].Text = "" + giocatore_2.MioCampo.Casella[i, j].SimboloCasella;
-                    }
-                }
-            }
+            // Devo avviare la partita
             Partita();
         }
 
@@ -240,6 +229,9 @@ namespace BattagliaNavale
             this.formPartita.Sottomarino_2Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
             this.formPartita.Sottomarino_3Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
             this.formPartita.Sottomarino_4Pic.MouseClick -= new MouseEventHandler(this.naveSelezionata_Click);
+
+            this.formPartita.ConsoleLabel.Text = "Partita iniziata! scegli una casella nel campo avversario\n";
+            this.formPartita.ConsoleLabel.Text += "e fai fuoco cliccando con il tasto sinistro del mouse!";
             // Ciclo for per disabilitare il metodo dei bottoni del panel del giocatore 1
             // e abilitare i bottoni del campo avversario
             for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
@@ -297,7 +289,7 @@ namespace BattagliaNavale
                                 }
                             }
 
-                            formPartita.ConsoleLabel.Text = "Complimenti " + giocatore_1.Nome + " hai vinto la partita!";
+                            formPartita.ConsoleLabel.Text += "\nComplimenti " + giocatore_1.Nome + " hai vinto la partita!";
                             
                             formPartita.NaviPosizionateBtn.Text = "TORNA AL MENU PRINCIPALE";
                             formPartita.NaviPosizionateBtn.Visible = true;
@@ -383,11 +375,12 @@ namespace BattagliaNavale
                         {
                             for (int j = 0; j < 10; j++)
                             {
+                                Console.WriteLine(i + "," + j);
                                 campoG2Btn[i, j].MouseClick -= bottoneCampoAvversario_Click;
                             }
                         }
 
-                        formPartita.ConsoleLabel.Text = "Complimenti " + giocatore_2.Nome + " hai vinto la partita!";
+                        formPartita.ConsoleLabel.Text += "\nComplimenti " + giocatore_2.Nome + " hai vinto la partita!";
 
                         formPartita.NaviPosizionateBtn.Text = "TORNA AL MENU PRINCIPALE";
                         formPartita.NaviPosizionateBtn.Visible = true;
@@ -407,15 +400,18 @@ namespace BattagliaNavale
                 formPartita.ConsoleLabel.Text += "mancato il nemico!";
             }
 
-            // Turno del giocatore 2 finito. Devo riabilitare il click
-            // sul campo avversario
-            for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
+            if (!giocatore_1.GameOver())
             {
-                for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
+                // Turno del giocatore 2 finito. Devo riabilitare il click
+                // sul campo avversario
+                for (int i = 0; i < giocatore_1.MioCampo.Dimensione; i++)
                 {
-                    campoG2Btn[i, j].MouseClick += bottoneCampoAvversario_Click;
+                    for (int j = 0; j < giocatore_1.MioCampo.Dimensione; j++)
+                    {
+                        campoG2Btn[i, j].MouseClick += bottoneCampoAvversario_Click;
+                    }
                 }
-            }
+            }            
         }
 
         // Metodo che chiude il form della partita per ritornare al menu principale
@@ -441,60 +437,70 @@ namespace BattagliaNavale
                 naveSelezionata = giocatore_1.ListaNavi[0];
                 
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
+                formPartita.ConsoleLabel.Text += ". \nPosizionati nella casella desiderata e tramite click destro decidi la direzione.";
             }
             else if (sender.Equals(this.formPartita.Incrociatore_1Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[1];
                 
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
+                formPartita.ConsoleLabel.Text += ". \nPosizionati nella casella desiderata e tramite click destro decidi la direzione.";
             }
             else if (sender.Equals(this.formPartita.Incrociatore_2Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[2];
                 
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
+                formPartita.ConsoleLabel.Text += ". \nPosizionati nella casella desiderata e tramite click destro decidi la direzione.";
             }
             else if (sender.Equals(this.formPartita.Torpediniere_1Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[3];
                 
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
+                formPartita.ConsoleLabel.Text += ". \nPosizionati nella casella desiderata e tramite click destro decidi la direzione.";
             }
             else if (sender.Equals(this.formPartita.Torpediniere_2Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[4];
                 
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
+                formPartita.ConsoleLabel.Text += ". \nPosizionati nella casella desiderata e tramite click destro decidi la direzione.";
             }
             else if (sender.Equals(this.formPartita.Torpediniere_3Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[5];
                 
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
+                formPartita.ConsoleLabel.Text += ". \nPosizionati nella casella desiderata e tramite click destro decidi la direzione.";
             }
             else if (sender.Equals(this.formPartita.Sottomarino_1Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[6];
                 
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
+                formPartita.ConsoleLabel.Text += ". \nPosizionati nella casella desiderata e tramite click destro decidi la direzione.";
             }
             else if (sender.Equals(this.formPartita.Sottomarino_2Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[7];
                 
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
+                formPartita.ConsoleLabel.Text += ". \nPosizionati nella casella desiderata e tramite click destro decidi la direzione.";
             }
             else if (sender.Equals(this.formPartita.Sottomarino_3Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[8];
                 
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
+                formPartita.ConsoleLabel.Text += ". \nPosizionati nella casella desiderata e tramite click destro decidi la direzione.";
             }
             else if (sender.Equals(this.formPartita.Sottomarino_4Pic))
             {
                 naveSelezionata = giocatore_1.ListaNavi[9];
                 
                 formPartita.ConsoleLabel.Text = "Nave Selezionata: " + naveSelezionata.Nome;
+                formPartita.ConsoleLabel.Text += ". \nPosizionati nella casella desiderata e tramite click destro decidi la direzione.";
             }            
         }
 

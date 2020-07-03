@@ -126,8 +126,7 @@ namespace ModelloBattagliaNavale
                             if (naveAffondata)
                             {
                                 naveAttuale.Affondata = true;
-                                ListaNavi.Remove(naveAttuale);
-                                Console.WriteLine(naveAttuale.Nome + ": Nave affondata!");
+                                ListaNavi.Remove(naveAttuale);                                
                             }
                         }
                     }

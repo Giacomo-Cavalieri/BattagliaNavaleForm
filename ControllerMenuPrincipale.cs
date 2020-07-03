@@ -5,7 +5,9 @@ namespace BattagliaNavale
 {
     class ControllerMenuPrincipale
     {
+        // 
         public MenuPrincipaleForm MenuPrincipale { get; set; }
+        // variabile per il singleton
         private static ControllerMenuPrincipale istanza;
         
 
@@ -24,7 +26,6 @@ namespace BattagliaNavale
             {
                 istanza = new ControllerMenuPrincipale();
             }
-
             return istanza;
         }
 
@@ -76,7 +77,6 @@ namespace BattagliaNavale
             this.MenuPrincipale.Docente.BackColor = Color.Transparent;
             // Carico l'immagine di sfondo del menu principale
             this.MenuPrincipale.SfondoMenuPrincipale.Image = (Image)Properties.Resources.sfondoMenuPrincipale;
-
 
             this.MenuPrincipale.ShowDialog();            
         }
