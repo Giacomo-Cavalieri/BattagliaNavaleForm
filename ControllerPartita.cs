@@ -192,7 +192,7 @@ namespace BattagliaNavale
             }
         }
 
-        // metodo per inizializzare i vari click delle varie navi
+        // metodo per inizializzare i vari click delle varie navi e del bottone delle istruzioni
         private void InizializzaEventi()
         {
             this.formPartita.Portaerei_Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
@@ -206,6 +206,7 @@ namespace BattagliaNavale
             this.formPartita.Sottomarino_3Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
             this.formPartita.Sottomarino_4Pic.MouseClick += new MouseEventHandler(this.naveSelezionata_Click);
             this.formPartita.NaviPosizionateBtn.MouseClick += new MouseEventHandler(this.naviPosizionate_Click);
+            
         }
 
         // Metodo che darà il via alla partita

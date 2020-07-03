@@ -4,6 +4,7 @@ namespace BattagliaNavale
 {
     public partial class PartitaForm : Form
     {
+        // Costruttore
         public PartitaForm()
         {
             InitializeComponent();
@@ -30,7 +31,7 @@ namespace BattagliaNavale
         }
 
 
-        // picturebox per stampare il sottomarino
+        // Serie di Picturebox per stampare le navi
         public PictureBox Sottomarino_1Pic
         {
             get { return this.sottomarino_1Pic; }
@@ -90,13 +91,21 @@ namespace BattagliaNavale
             set { this.torpediniere_3Pic = value; }
         }
 
-
+        // Label che andrà a visualizzare i cambiamenti durante la partita
         public Label ConsoleLabel
         {
             get { return this.consoleLabel; }
             set { this.consoleLabel = value; }
         }
 
+        // Button per visualizzare le istruzioni
+        public Button IstruzioniBtn
+        {
+            get {return this.istruzioniBtn; }
+            set {this.istruzioniBtn = value; }
+        }
+
+        // Picturebox per lo sfondo del form
         public PictureBox SfondoPartita
         {
             get { return this.sfondoPartitaPic; }

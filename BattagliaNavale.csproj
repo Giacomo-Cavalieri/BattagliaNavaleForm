@@ -115,5 +115,8 @@
   <ItemGroup>
     <None Include="Resources\sfondoFormPartita.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\istruzioni1Pic.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

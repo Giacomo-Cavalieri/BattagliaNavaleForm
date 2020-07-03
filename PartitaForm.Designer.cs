@@ -43,6 +43,7 @@
             this.torpediniere_3Pic = new System.Windows.Forms.PictureBox();
             this.consoleLabel = new System.Windows.Forms.Label();
             this.sfondoPartitaPic = new System.Windows.Forms.PictureBox();
+            this.istruzioniBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.sottomarino_1Pic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sottomarino_2Pic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sottomarino_3Pic)).BeginInit();
@@ -194,11 +195,22 @@
             this.sfondoPartitaPic.TabIndex = 14;
             this.sfondoPartitaPic.TabStop = false;
             // 
+            // istruzioniBtn
+            // 
+            this.istruzioniBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.istruzioniBtn.Location = new System.Drawing.Point(508, 455);
+            this.istruzioniBtn.Name = "istruzioniBtn";
+            this.istruzioniBtn.Size = new System.Drawing.Size(215, 64);
+            this.istruzioniBtn.TabIndex = 15;
+            this.istruzioniBtn.Text = "REGOLE E ISTRUZIONI";
+            this.istruzioniBtn.UseVisualStyleBackColor = true;
+            // 
             // PartitaForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1251, 589);
+            this.Controls.Add(this.istruzioniBtn);
             this.Controls.Add(this.consoleLabel);
             this.Controls.Add(this.torpediniere_3Pic);
             this.Controls.Add(this.torpediniere_2Pic);
@@ -250,5 +262,6 @@
         private System.Windows.Forms.PictureBox torpediniere_3Pic;
         private System.Windows.Forms.Label consoleLabel;
         private System.Windows.Forms.PictureBox sfondoPartitaPic;
+        private System.Windows.Forms.Button istruzioniBtn;
     }
 }

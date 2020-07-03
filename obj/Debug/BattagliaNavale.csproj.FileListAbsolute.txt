@@ -26,3 +26,4 @@ C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.csproj.Core
 C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.csproj.CopyComplete
 C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.exe
 C:\Users\jaack\Desktop\BattagliaNavaleForm\obj\Debug\BattagliaNavale.pdb
+D:\Users\Utente\Desktop\BattagliaNavale\obj\Debug\BattagliaNavale.IstruzioniForm.resources
