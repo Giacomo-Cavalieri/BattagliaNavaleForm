@@ -375,7 +375,6 @@ namespace BattagliaNavale
                         {
                             for (int j = 0; j < 10; j++)
                             {
-                                Console.WriteLine(i + "," + j);
                                 campoG2Btn[i, j].MouseClick -= bottoneCampoAvversario_Click;
                             }
                         }
