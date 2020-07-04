@@ -6,18 +6,18 @@ namespace ModelloBattagliaNavale
     // Classe che andrà a costituire il campo del giocatore (la griglia sarà una matrice di Casella)
     public class Casella
     {
-        // Dichiarazione delle property
-
-        // Property per l'individuazione delle coordinate all'interno della matrice
+        // attrubbuti per l'individuazione delle coordinate all'interno della matrice
         private int riga;
         private int colonna;
 
+        // Dichiarazione delle property
         // Property per lo stato della casella
         public Stato StatoCasella { get; set; }
 
-
+        // Property per il simbolo di ogni casella
         public char SimboloCasella { get; set; }
 
+        // Property per la coordinata riga
         public int Riga
         {
             get { return this.riga; }
@@ -34,6 +34,7 @@ namespace ModelloBattagliaNavale
             }
         }
 
+        // Property per la coordinata colonna
         public int Colonna
         {
             get { return this.colonna; }
